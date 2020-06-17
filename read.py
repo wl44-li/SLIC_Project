@@ -1,9 +1,10 @@
 import pandas as pd
 import tkinter as tk
-import os
 from tkinter import filedialog
 import cleanData
-from fileHelper import fileValid, readFile
+from fileHelper import readFile
+import simpleGraph
+
 
 root = tk.Tk()
 
@@ -23,3 +24,8 @@ if data is not None:
     cleanData.saveData(raw_file_path, data)
     print("Data baseline corrected")
     
+    # seconds and minutes graph
+    simpleGraph.graph(data, raw_file_path)
+    
+    # scatter graph based on threshold (value between 0 to 1)
+    simpleGraph.thresholdGraph(data, 0.25, raw_file_path)

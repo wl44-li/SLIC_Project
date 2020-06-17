@@ -33,14 +33,19 @@ def remove_string(df):
     # split into channels
     df = df[0].str.split(expand = True)
 
-    # remove last 2 channels
-    df.drop(df.columns[[-1, -2]], axis=1, inplace=True)
-    
+    # Intepretate 6 channels for the time being
+    while (len(df.columns) > 6):
+        # delete redundant columns 
+        df.drop(df.columns[-1], axis = 1, inplace = True)
+        
     # remove entry with less than 2 channels of data
     df = df[df[1].notna()]
     
     # remove the first three rows from "warmming up" SLIC
     df = df.iloc[3:]
+    
+    # rename header (Currently at 6 channels, first being the control)
+    df.columns = ['Control', 'Channel 1', 'Channel 2', 'Channel 3', 'Channel 4', 'Channel 5']
     
     # reset index
     df = df.reset_index(drop=True)
