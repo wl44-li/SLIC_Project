@@ -16,7 +16,7 @@ def readFile(filepath):
     if fileValid(filepath) :
         print("Reading From: " + filepath)
         
-        # read overhead string as NaN, then drop
+        # read noisy string as NaN, then drop before processing further
         data = pd.read_csv(filepath, header = None, sep = '\r\t', 
                na_values = ['OK System stopped', 'OK System running', 'start 1', 'start v1', 'stop', 'op'], 
                engine = 'python').dropna()

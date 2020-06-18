@@ -13,7 +13,7 @@ def clean(filepath):
 
 def saveData(filepath, data):
     """
-    Saves the clean-ed data to a new file
+    Saves pre-processed data to a new csv file in the same directory
     """
     filename = os.path.splitext(filepath)[0]
 
@@ -21,11 +21,15 @@ def saveData(filepath, data):
     
 
 def refineData(data):
+    """
+    First remove extra string
+    Then perform baseline correction
+    """
     data = remove_string(data)
     data = baseline_correct(data)
     return data    
 
-
+# add another parameter to represent number of useful channels ?
 def remove_string(df):
     # remove stop in last entry
     df.iloc[-1] = df.iloc[-1].str.replace("stop ", "")
@@ -33,7 +37,7 @@ def remove_string(df):
     # split into channels
     df = df[0].str.split(expand = True)
 
-    # Intepretate 6 channels for the time being
+    # Intepretate 6 channels (This may increase to 16)   
     while (len(df.columns) > 6):
         # delete redundant columns 
         df.drop(df.columns[-1], axis = 1, inplace = True)
@@ -55,7 +59,7 @@ def baseline_correct(df):
     # treat all columns as numeric values
     df = df.apply(pd.to_numeric)
     
-    # substract first row from all other rows(baseline)
+    # substract first row from all other rows
     df = df - df.iloc[0]
     return df
     

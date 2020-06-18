@@ -5,16 +5,14 @@ import cleanData
 from fileHelper import readFile
 import simpleGraph
 
-
+# Use Tkinter to get file explorer window
 root = tk.Tk()
 
 # Hide full GUI for the time being 
 root.withdraw()
 
-# Get the path to raw data
+# Get the path to raw data csv file
 raw_file_path = filedialog.askopenfilename()
-
-print(raw_file_path, "\n")
 
 data = readFile(raw_file_path)
 
@@ -28,4 +26,4 @@ if data is not None:
     simpleGraph.graph(data, raw_file_path)
     
     # scatter graph based on threshold (value between 0 to 1)
-    simpleGraph.thresholdGraph(data, 0.25, raw_file_path)
+    simpleGraph.thresholdGraph(data, 0.5, raw_file_path)
