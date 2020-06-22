@@ -10,8 +10,6 @@ def graph(data, filepath):
     
     # default graph (seconds)
     ax_sec = data.plot()
-    
-    # Name axis
     ax_sec.set_xlabel("Time(sec)")
     ax_sec.set_ylabel("Growth(dB)")
     
@@ -28,10 +26,7 @@ def graph(data, filepath):
     df = df.reset_index(drop = True)
     
     ax = df.plot()
-        
     fig = ax.get_figure()
-
-    # Name axis
     ax.set_xlabel("Time(min)")
     ax.set_ylabel("Growth(dB)") 
 
@@ -45,7 +40,7 @@ def graph(data, filepath):
     plt.show()
     
 
-# threshold is a number between 0 to 1
+# threshold is a number between 0 to 1 or % between 0 to 100
 def thresholdGraph(data, threshold, filepath):
     
     if (threshold > 1 or threshold < 0):
@@ -66,11 +61,14 @@ def thresholdGraph(data, threshold, filepath):
         # scatter other columns one by one
         for i in range(2, len(df.columns) + 1):
             # above threashold is RED, below is GREEN
-            colors = np.where(df['Channel ' + str(i-1)] > df['Control']*threshold, 'r', 'g')
+            #colors = np.where(df['Channel ' + str(i-1)] > df['Control']*threshold, 'r', 'g')
+            colors = np.where(df.iloc[:, (i-1)] > df.iloc[:, 0]*threshold, 'r', 'g')
             ax_i = df.reset_index().plot(x = 'index', y = i, kind = 'scatter', ax = ax, c = colors, marker = "|")
         
+        # title can be added via GUI 
         ax.set_xlabel("Time(min)")
-        ax.set_ylabel("Growth(dB)") 
+        ax.set_ylabel("Growth(dB)")
+        
         fig = ax.get_figure()
         fig.set_size_inches(16, 9)
         

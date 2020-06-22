@@ -4,7 +4,7 @@ from tkinter import filedialog
 import cleanData
 from fileHelper import readFile
 import simpleGraph
-
+import os
 # Use Tkinter to get file explorer window
 root = tk.Tk()
 
@@ -14,16 +14,25 @@ root.withdraw()
 # Get the path to raw data csv file
 raw_file_path = filedialog.askopenfilename()
 
+# Extract list of column variables from filepath 
+base = os.path.basename(raw_file_path)
+baseFile = os.path.splitext(base)[0]
+channel_string = baseFile.split('(')[0]
+col_list = [x.strip() for x in channel_string.split(',')]
+print(col_list) # Used to name column headers
+
+unit = "ug/ml"
+
 data = readFile(raw_file_path)
 
 if data is not None:
-    data = cleanData.refineData(data)
+    data = cleanData.refineData(col_list, data)
     print("Data refined")
     cleanData.saveData(raw_file_path, data)
     print("Data baseline corrected")
     
-    # seconds and minutes graph
+    # Simple seconds and minutes graph
     simpleGraph.graph(data, raw_file_path)
     
-    # scatter graph based on threshold (value between 0 to 1)
+    # scatter graph based on threshold (value between 0 to 1) given via GUI
     simpleGraph.thresholdGraph(data, 0.5, raw_file_path)
