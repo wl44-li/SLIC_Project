@@ -29,25 +29,36 @@ def refineData(col_list, data):
     return data    
 
 def remove_string(col_list, df):
+    """
+    Remove all alphabets
+    Expand to 6 channels
+    Remove useless channels
+    Drop entries with fewer than 6 channels
+    Remove first 3 rows
+    Rename column headers
+    Reset index
+    """
+
+    # remove all alphabets 
+    df[0] = df[0].str.replace(r"[a-zA-Z]", '')
+    df[0] = df[0].str.replace("#", '')
     
-    # remove stop in last entry before SLIC finishes data collection
-    #df.iloc[-1] = df.iloc[-1].str.replace("stop ", "")
-    df.iloc[-1] = df.iloc[-1].str.lstrip('stop')
-    
-    # split into channels
+    # split into channels by space
     df = df[0].str.split(expand = True)
 
     # Intepretate 6 channels (This may increase to 16 - modified via GUI)   
     while (len(df.columns) > 6):
-        # delete redundant columns 
+        # delete redundant columns (last 2 for example)
         df.drop(df.columns[-1], axis = 1, inplace = True)
         
     # remove entry with less than 6 channels of data
     df = df[df[5].notna()]
 
-    
     # remove the first three rows from "warmming up" SLIC - Customisable via GUI
     df = df.iloc[3:]
+    
+    # Additional optional removal...
+    # df = df.iloc[40:]
     
     # unit should be customisable via GUI
     unit = "ug/ml"
@@ -60,6 +71,9 @@ def remove_string(col_list, df):
     return df
 
 def baseline_correct(df):
+    """
+    Substract first row from all rows
+    """
     # treat all columns as numeric values
     df = df.apply(pd.to_numeric)
     

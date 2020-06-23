@@ -5,6 +5,7 @@ import cleanData
 from fileHelper import readFile
 import simpleGraph
 import os
+import time
 
 '''
 Perform average across 3 runs of SLIC data
@@ -16,27 +17,21 @@ root = tk.Tk()
 # Hide full GUI for the time being 
 root.withdraw()
 
-''' Could improve to a for loop based on user GUI input ?
+''' Could improve to a for loop (number of files) based on user GUI input ?
 '''
 # Get the path to raw data csv file
 raw_file_path_1 = filedialog.askopenfilename()
-
+time.sleep(1)
 raw_file_path_2 = filedialog.askopenfilename()
-
+time.sleep(1)
 raw_file_path_3 = filedialog.askopenfilename()
 
-'''
-print(raw_file_path_1)
-print(raw_file_path_2)
-print(raw_file_path_3)
-'''
 
+# Get col_list from GUI instead
 base = os.path.basename(raw_file_path_1)
 baseFile = os.path.splitext(base)[0]
 channel_string = baseFile.split('(')[0]
 col_list = [x.strip() for x in channel_string.split(',')]
-print(col_list) # Used to name column headers
-
 
 df_1 = readFile(raw_file_path_1)
 df_2 = readFile(raw_file_path_2)
@@ -65,10 +60,6 @@ by_row_index = df_concat.groupby(df_concat.index)
 
 df_means = by_row_index.mean()
 
-'''
-print(df_means)
-print(raw_file_path_1.split('(')[0])
-'''
 
 # generate graph from averaged data
 simpleGraph.graph(df_means, raw_file_path_1.split('(')[0] + '_avg_')
