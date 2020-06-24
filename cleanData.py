@@ -28,6 +28,7 @@ def refineData(col_list, data):
     data = baseline_correct(data)
     return data    
 
+
 def remove_string(col_list, df):
     """
     Remove all alphabets
@@ -38,17 +39,29 @@ def remove_string(col_list, df):
     Rename column headers
     Reset index
     """
-
-    # remove all alphabets 
+    
+    start_list = df[0][df[0] == 'OK System running'].index.tolist()
+        
+    if len(start_list) > 1:
+        print("Warning: More than one System start detected")
+        # remove error system starts
+        df = df.iloc[start_list[len(start_list) - 1]:]
+        print(start_list[len(start_list) - 1], "rows have been removed from start\n")
+        
+    # remove all alphabets
+    '''
     df[0] = df[0].str.replace(r"[a-zA-Z]", '')
     df[0] = df[0].str.replace("#", '')
-    
+    '''
+    df.iloc[:, 0] = df.iloc[:, 0].str.replace(r"[a-zA-Z]", '')
+    df.iloc[:, 0] = df.iloc[:, 0].str.replace("#", '')
+
     # split into channels by space
     df = df[0].str.split(expand = True)
 
     # Intepretate 6 channels (This may increase to 16 - modified via GUI)   
     while (len(df.columns) > 6):
-        # delete redundant columns (last 2 for example)
+        # delete redundant columns (last 2 for example) --- Works on Version 7 of SLICS
         df.drop(df.columns[-1], axis = 1, inplace = True)
         
     # remove entry with less than 6 channels of data
@@ -56,9 +69,6 @@ def remove_string(col_list, df):
 
     # remove the first three rows from "warmming up" SLIC - Customisable via GUI
     df = df.iloc[3:]
-    
-    # Additional optional removal...
-    # df = df.iloc[40:]
     
     # unit should be customisable via GUI
     unit = "ug/ml"

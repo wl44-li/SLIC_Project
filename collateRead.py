@@ -8,7 +8,7 @@ import os
 import time
 
 '''
-Perform average across 3 runs of SLIC data
+Perform average across 3 runs of SLIC data - Usual case
 '''
 
 # Use Tkinter to get file explorer window
@@ -17,7 +17,8 @@ root = tk.Tk()
 # Hide full GUI for the time being 
 root.withdraw()
 
-''' Could improve to a for loop (number of files) based on user GUI input ?
+''' 
+Could improve to a for loop (number of files) based on user GUI input ?
 '''
 # Get the path to raw data csv file
 raw_file_path_1 = filedialog.askopenfilename()
@@ -25,7 +26,6 @@ time.sleep(1)
 raw_file_path_2 = filedialog.askopenfilename()
 time.sleep(1)
 raw_file_path_3 = filedialog.askopenfilename()
-
 
 # Get col_list from GUI instead
 base = os.path.basename(raw_file_path_1)
@@ -36,7 +36,6 @@ col_list = [x.strip() for x in channel_string.split(',')]
 df_1 = readFile(raw_file_path_1)
 df_2 = readFile(raw_file_path_2)
 df_3 = readFile(raw_file_path_3)
-
 
 df_1 = cleanData.refineData(col_list, df_1)
 print("Data 1 refined")
@@ -59,7 +58,6 @@ df_concat = pd.concat((df_1, df_2, df_3))
 by_row_index = df_concat.groupby(df_concat.index)
 
 df_means = by_row_index.mean()
-
 
 # generate graph from averaged data
 simpleGraph.graph(df_means, raw_file_path_1.split('(')[0] + '_avg_')

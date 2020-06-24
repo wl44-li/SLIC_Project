@@ -21,7 +21,7 @@ def graph(data, filepath):
     # save graph to data directory
     fig.savefig(filename + '_fig.png', dpi = 120)
     
-    # Plot data every 60 seconds (minute interval)
+    # Plot data every 60 seconds (minute interval) --- Perhaps a Separate functionality ?
     df = data[data.index % 60 == 0]
     df = df.reset_index(drop = True)
     
@@ -64,7 +64,7 @@ def thresholdGraph(data, threshold, filepath):
             colors = np.where(df.iloc[:, (i-1)] > df.iloc[:, 0]*threshold, 'r', 'g')
             ax_i = df.reset_index().plot(x = 'index', y = i, kind = 'scatter', ax = ax, c = colors, marker = "|")
         
-        # title can be added via GUI 
+        # graph title can be added via GUI 
         ax.set_xlabel("Time(min)")
         ax.set_ylabel("Growth(dB)")
         ax.legend(title = (str)(threshold * 100) + " % threshold")

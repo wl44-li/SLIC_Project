@@ -24,14 +24,18 @@ print(col_list) # Used to name column headers
 data = readFile(raw_file_path)
 
 if data is not None:
-    data = cleanData.refineData(col_list, data)
-    print("Data refined")
+    data = cleanData.remove_string(col_list, data)
+    print("Data refined\n")
+    
+    data = cleanData.baseline_correct(data)
+    print("Data baseline corrected\n")
+
     cleanData.saveData(raw_file_path, data)
-    print("Data baseline corrected")
+    print("Data saved\n")
     
     # Simple seconds and minutes graph
     simpleGraph.graph(data, raw_file_path)
     
     # scatter graph based on threshold (value between 0 to 1) given via GUI
-    simpleGraph.thresholdGraph(data, 0.50, raw_file_path)
+    simpleGraph.thresholdGraph(data, 0.25, raw_file_path)
     
