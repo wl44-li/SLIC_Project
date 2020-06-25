@@ -15,9 +15,7 @@ def readFile(filepath):
     """
     if fileValid(filepath) :
         print("Reading From: " + filepath + "\n")
-        
         data = pd.read_csv(filepath, header = None, sep = '\r\t', engine = 'python')
-        
         return data
     
     else:

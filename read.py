@@ -5,6 +5,7 @@ import cleanData
 from fileHelper import readFile
 import simpleGraph
 import os
+
 # Use Tkinter to get file explorer window
 root = tk.Tk()
 
@@ -19,7 +20,6 @@ base = os.path.basename(raw_file_path)
 baseFile = os.path.splitext(base)[0]
 channel_string = baseFile.split('(')[0]
 col_list = [x.strip() for x in channel_string.split(',')]
-print(col_list) # Used to name column headers
 
 data = readFile(raw_file_path)
 

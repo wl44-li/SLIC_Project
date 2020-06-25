@@ -71,6 +71,7 @@ def thresholdGraph(data, threshold, filepath):
         fig = ax.get_figure()
         fig.set_size_inches(16, 9)
         
+        # optional save ?
         fig.savefig(filename + '_' + (str)(threshold) + '_threshold.png', dpi = 120)
     
         plt.show()    

@@ -10,7 +10,7 @@ def clean(filepath):
         data = refineData(data)
         saveData(filepath, data)
 
-
+# ask save directory from user
 def saveData(filepath, data):
     """
     Saves pre-processed data to a new csv file in the same directory
@@ -41,18 +41,15 @@ def remove_string(col_list, df):
     """
     
     start_list = df[0][df[0] == 'OK System running'].index.tolist()
-        
+    
+    # Only keep last system start run
     if len(start_list) > 1:
-        print("Warning: More than one System start detected")
+        print("Warning: More than one 'System start' detected")
         # remove error system starts
         df = df.iloc[start_list[len(start_list) - 1]:]
         print(start_list[len(start_list) - 1], "rows have been removed from start\n")
         
     # remove all alphabets
-    '''
-    df[0] = df[0].str.replace(r"[a-zA-Z]", '')
-    df[0] = df[0].str.replace("#", '')
-    '''
     df.iloc[:, 0] = df.iloc[:, 0].str.replace(r"[a-zA-Z]", '')
     df.iloc[:, 0] = df.iloc[:, 0].str.replace("#", '')
 
