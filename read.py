@@ -24,7 +24,7 @@ col_list = [x.strip() for x in channel_string.split(',')]
 data = readFile(raw_file_path)
 
 if data is not None:
-    data = cleanData.remove_string(col_list, data)
+    data = cleanData.remove_string(col_list, 6, "ug/ml", data)
     print("Data refined\n")
     
     data = cleanData.baseline_correct(data)
@@ -37,5 +37,5 @@ if data is not None:
     simpleGraph.graph(data, raw_file_path)
     
     # scatter graph based on threshold (value between 0 to 1) given via GUI
-    simpleGraph.thresholdGraph(data, 0.25, raw_file_path)
+    simpleGraph.thresholdGraph(data, 0.25, "Threshold graph", raw_file_path)
     

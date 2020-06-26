@@ -41,7 +41,7 @@ clean_list = []
 
 # refine all dataframes
 for df in df_list:
-    df = cleanData.refineData(col_list, df)
+    df = cleanData.refineData(col_list, 6, "ug/ml", df)
     # Add to list of refined dataframes
     clean_list.append(df)
     
@@ -54,4 +54,4 @@ df_means = by_row_index.mean()
 
 # generate graph from averaged data
 simpleGraph.graph(df_means, file_list[0].split('(')[0] + '_avg_')
-simpleGraph.thresholdGraph(df_means, 0.50, file_list[0].split('(')[0] + '_avg_')
+simpleGraph.thresholdGraph(df_means, 0.50, "Threshold Graph", file_list[0].split('(')[0] + '_avg_')

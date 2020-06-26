@@ -21,7 +21,7 @@ def graph(data, filepath):
     # save graph to data directory
     fig.savefig(filename + '_fig.png', dpi = 120)
     
-    # Plot data every 60 seconds (minute interval) --- Perhaps a Separate functionality ?
+    # Plot data every 60 seconds (minute interval)
     df = data[data.index % 60 == 0]
     df = df.reset_index(drop = True)
     
@@ -41,7 +41,7 @@ def graph(data, filepath):
     
 
 # threshold is a number between 0 to 1 or % between 0 to 100
-def thresholdGraph(data, threshold, filepath):
+def thresholdGraph(data, threshold, title, filepath):
     
     if (threshold > 1 or threshold < 0):
         print("Invalid threshold, must be a number between 0 to 1")
@@ -68,11 +68,11 @@ def thresholdGraph(data, threshold, filepath):
         ax.set_xlabel("Time(min)")
         ax.set_ylabel("Growth(dB)")
         ax.legend(title = (str)(threshold * 100) + " % threshold")
+        ax.title.set_text(title)
         fig = ax.get_figure()
         fig.set_size_inches(16, 9)
         
-        # optional save ?
-        fig.savefig(filename + '_' + (str)(threshold) + '_threshold.png', dpi = 120)
+        fig.savefig(filename + '_' + (str)(threshold * 100) + '%_threshold.png', dpi = 120)
     
         plt.show()    
 

@@ -1,0 +1,137 @@
+<?xml version='1.0' encoding='utf-8'?>
+<interface version="1.0">
+  <object class="tk.LabelFrame" id="Data_Func">
+    <property name="font">{Calibri} 14 {}</property>
+    <property name="height">800</property>
+    <property name="labelanchor">n</property>
+    <property name="takefocus">false</property>
+    <property name="width">800</property>
+    <layout manager="pack">
+      <property name="propagate">True</property>
+      <property name="side">top</property>
+    </layout>
+    <child>
+      <object class="tk.Label" id="label_3">
+        <property name="text" translatable="yes">Raw Data Configuration</property>
+        <layout manager="pack">
+          <property name="ipady">10</property>
+          <property name="propagate">True</property>
+          <property name="side">top</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="tk.Entry" id="entry_1">
+        <property name="justify">left</property>
+        <property name="text" translatable="yes">(Number of File)
+</property>
+        <property name="textvariable">int:number_file</property>
+        <layout manager="pack">
+          <property name="fill">both</property>
+          <property name="padx">10</property>
+          <property name="pady">10</property>
+          <property name="propagate">True</property>
+          <property name="side">top</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="tk.Scale" id="scale_1">
+        <property name="from_">6</property>
+        <property name="label" translatable="yes">Channel Number</property>
+        <property name="orient">horizontal</property>
+        <property name="to">16</property>
+        <property name="variable">int:channel_number</property>
+        <layout manager="pack">
+          <property name="propagate">True</property>
+          <property name="side">top</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="tk.Entry" id="entry_5">
+        <property name="text" translatable="yes">(
+Channel Unit)
+</property>
+        <property name="textvariable">string:col_unit</property>
+        <layout manager="pack">
+          <property name="fill">x</property>
+          <property name="padx">10</property>
+          <property name="pady">10</property>
+          <property name="propagate">True</property>
+          <property name="side">top</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="tk.Entry" id="entry_4">
+        <property name="state">normal</property>
+        <property name="text" translatable="yes">(Channel Headers
+)
+
+
+</property>
+        <property name="textvariable">string:col_list</property>
+        <layout manager="pack">
+          <property name="fill">x</property>
+          <property name="padx">10</property>
+          <property name="pady">10</property>
+          <property name="propagate">True</property>
+          <property name="side">top</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="tk.Label" id="label_1">
+        <property name="text" translatable="yes">Graph configuration
+</property>
+        <layout manager="pack">
+          <property name="pady">10</property>
+          <property name="propagate">True</property>
+          <property name="side">top</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="tk.Entry" id="entry_6">
+        <property name="state">normal</property>
+        <property name="text" translatable="yes">(
+Graph Title)</property>
+        <property name="textvariable">string:graph_title</property>
+        <layout manager="pack">
+          <property name="propagate">True</property>
+          <property name="side">top</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="tk.Scale" id="scale_3">
+        <property name="label" translatable="yes">Threshold %</property>
+        <property name="orient">horizontal</property>
+        <property name="variable">int:threshold</property>
+        <layout manager="pack">
+          <property name="fill">x</property>
+          <property name="padx">10</property>
+          <property name="pady">10</property>
+          <property name="propagate">True</property>
+          <property name="side">top</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="tk.Button" id="button_2">
+        <property name="command">button1_callback</property>
+        <property name="text" translatable="yes">Choose file &amp; generate graph
+
+</property>
+        <layout manager="pack">
+          <property name="fill">x</property>
+          <property name="padx">10</property>
+          <property name="pady">10</property>
+          <property name="propagate">True</property>
+          <property name="side">top</property>
+        </layout>
+      </object>
+    </child>
+  </object>
+</interface>

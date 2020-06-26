@@ -19,17 +19,17 @@ def saveData(filepath, data):
     data.to_csv(filename + "_clean.csv", index = False)
     
 
-def refineData(col_list, data):
+def refineData(col_list, num, col_unit, data):
     """
     First remove extra string
     Then perform baseline correction
     """
-    data = remove_string(col_list, data)
+    data = remove_string(col_list, num, col_unit, data)
     data = baseline_correct(data)
     return data    
 
 
-def remove_string(col_list, df):
+def remove_string(col_list, col_num, col_unit, df):
     """
     Remove all alphabets
     Expand to 6 channels
@@ -57,7 +57,7 @@ def remove_string(col_list, df):
     df = df[0].str.split(expand = True)
 
     # Intepretate 6 channels (This may increase to 16 - modified via GUI)   
-    while (len(df.columns) > 6):
+    while (len(df.columns) > col_num):
         # delete redundant columns (last 2 for example) --- Works on Version 7 of SLICS
         df.drop(df.columns[-1], axis = 1, inplace = True)
         
@@ -68,11 +68,16 @@ def remove_string(col_list, df):
     df = df.iloc[3:]
     
     # unit should be customisable via GUI
-    unit = "ug/ml"
+    unit = col_unit
     
     # rename header (Currently at 6 channels, first being the control)
-    df.columns = ['Control', 'Channel 1: ' + col_list[1] + unit, 'Channel 2: ' + col_list[2] + unit, 'Channel 3: ' + col_list[3] + unit, 'Channel 4: ' + col_list[4] + unit, 'Channel 5: ' + col_list[5] + unit]
+    # df.columns = ['Control', 'Channel 1: ' + col_list[1] + unit, 'Channel 2: ' + col_list[2] + unit, 'Channel 3: ' + col_list[3] + unit, 'Channel 4: ' + col_list[4] + unit, 'Channel 5: ' + col_list[5] + unit]
+    list_c = []
     
+    for i in range (col_num):
+         list_c.append(col_list[i] + ' ' + unit)
+    
+    df.columns = list_c
     # reset index
     df = df.reset_index(drop = True)
     return df
