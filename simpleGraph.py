@@ -53,6 +53,8 @@ def thresholdGraph(data, threshold, title, filepath):
         # Plot data every 60 seconds
         df = data[data.index % 60 == 0]
         df = df.reset_index(drop = True)
+        
+        # backhground is a minute inteval graph
         ax = df.plot()
         
         # control channel scatter blue
@@ -67,13 +69,16 @@ def thresholdGraph(data, threshold, title, filepath):
         # graph title can be added via GUI 
         ax.set_xlabel("Time(min)")
         ax.set_ylabel("Growth(dB)")
+        # set graph legend
         ax.legend(title = (str)(threshold * 100) + " % threshold")
+        # set graph title
         ax.title.set_text(title)
+        
         fig = ax.get_figure()
         fig.set_size_inches(16, 9)
-        
         fig.savefig(filename + '_' + (str)(threshold * 100) + '%_threshold.png', dpi = 120)
-    
+        
+        # show figure on canvas?
         plt.show()    
 
 

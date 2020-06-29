@@ -1,4 +1,3 @@
-import pandas as pd
 import tkinter as tk
 from tkinter import filedialog
 import cleanData
@@ -6,6 +5,8 @@ from fileHelper import readFile
 import simpleGraph
 import os
 
+''' Read, clean and graph on a single raw data file
+'''
 # Use Tkinter to get file explorer window
 root = tk.Tk()
 

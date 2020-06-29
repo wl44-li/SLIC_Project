@@ -5,10 +5,11 @@ import cleanData
 from fileHelper import readFile
 import pandas as pd
 import simpleGraph
-import os
 
 class SLIC_DataTool:
     
+    ''' Single button click prototype
+    '''
     def __init__(self):
 
         #1: Create a builder
@@ -19,7 +20,7 @@ class SLIC_DataTool:
 
         #3: Create the mainwindow
         self.mainwindow = builder.get_object("Data_Func")
-        
+    
         builder.connect_callbacks(self)
         
     def run(self):
@@ -43,7 +44,8 @@ class SLIC_DataTool:
         for i in range(num_f):
             filename = filedialog.askopenfilename()
             file_list.append(filename)
-            
+        
+        # single file
         if num_f == 1:
             data = readFile(file_list[0])
 
@@ -59,7 +61,7 @@ class SLIC_DataTool:
                 
                 simpleGraph.thresholdGraph(data, threshold_p/100, graph_h, file_list[0])
                 
-                
+        # multiple files        
         else:
             df_list = [readFile(filename) for filename in file_list]
 

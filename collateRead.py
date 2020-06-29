@@ -5,7 +5,6 @@ import cleanData
 from fileHelper import readFile
 import simpleGraph
 import os
-import time
 
 '''
 Perform average across 3 runs of SLIC data - Usual case

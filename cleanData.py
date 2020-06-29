@@ -1,4 +1,3 @@
-import sys
 import pandas as pd
 import os
 from fileHelper import *
@@ -31,6 +30,7 @@ def refineData(col_list, num, col_unit, data):
 
 def remove_string(col_list, col_num, col_unit, df):
     """
+    Remove extra 'System running' as noise
     Remove all alphabets
     Expand to 6 channels
     Remove useless channels
@@ -71,15 +71,15 @@ def remove_string(col_list, col_num, col_unit, df):
     unit = col_unit
     
     # rename header (Currently at 6 channels, first being the control)
-    # df.columns = ['Control', 'Channel 1: ' + col_list[1] + unit, 'Channel 2: ' + col_list[2] + unit, 'Channel 3: ' + col_list[3] + unit, 'Channel 4: ' + col_list[4] + unit, 'Channel 5: ' + col_list[5] + unit]
     list_c = []
     
     for i in range (col_num):
-         list_c.append(col_list[i] + ' ' + unit)
+         list_c.append(col_list[i] +  ' ' + unit)
     
     df.columns = list_c
     # reset index
     df = df.reset_index(drop = True)
+    
     return df
 
 def baseline_correct(df):
