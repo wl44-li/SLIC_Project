@@ -36,7 +36,6 @@ class SLIC_DataTool:
         threshold_p = self.builder.tkvariables['threshold'].get()
         
         col_list = [x.strip() for x in col_h.split()]
-        print(col_list)
 
         file_list = []
 
@@ -83,7 +82,6 @@ class SLIC_DataTool:
             
             simpleGraph.thresholdGraph(df_means, threshold_p/100, graph_h, file_list[0].split('(')[0] + '_avg_')
             
-
 if __name__ == '__main__':
     app = SLIC_DataTool()
     app.run()
