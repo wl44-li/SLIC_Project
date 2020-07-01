@@ -78,10 +78,15 @@ class SLIC_DataTool:
             by_row_index = df_concat.groupby(df_concat.index)
             
             df_means = by_row_index.mean()
+            
             print("Data collated and averaged\n")
             
+            df_sem = by_row_index.sem()
+
             simpleGraph.thresholdGraph(df_means, threshold_p/100, graph_h, file_list[0].split('(')[0] + '_avg_')
             
+            simpleGraph.threshold_errorbar(df_means, df_sem, threshold_p/100, graph_h, file_list[0].split('(')[0] + '_avg_error_bar')
+
 if __name__ == '__main__':
     app = SLIC_DataTool()
     app.run()

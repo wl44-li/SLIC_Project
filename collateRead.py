@@ -33,7 +33,7 @@ baseFile = os.path.splitext(base)[0]
 channel_string = baseFile.split('(')[0]
 col_list = [x.strip() for x in channel_string.split(',')]
 
-# Populate a list of dateframe from raw data
+# Populate a list of dateframe from raw data 
 df_list = [readFile(filename) for filename in file_list]
 
 clean_list = []
@@ -51,6 +51,14 @@ by_row_index = df_concat.groupby(df_concat.index)
 
 df_means = by_row_index.mean()
 
+# Standard error calcualted based on mean
+df_sem = by_row_index.sem()
+
+print(df_sem)
+
 # generate graph from averaged data
 simpleGraph.graph(df_means, file_list[0].split('(')[0] + '_avg_')
 simpleGraph.thresholdGraph(df_means, 0.50, "Threshold Graph", file_list[0].split('(')[0] + '_avg_')
+
+# option to add error bars (needs discussion)
+simpleGraph.threshold_errorbar(df_means, df_sem, 0.50, "Threshold Graph", file_list[0].split('(')[0] + '_avg_error_bar')
