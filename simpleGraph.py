@@ -71,14 +71,17 @@ def thresholdGraph(data, threshold, title, filepath):
         txt = 'Colour shift info: \n'
         for i in range (0, len(time_tick)):
             if (isinstance(time_tick[i], int)) :
-                txt = txt + 'Channel ' + str(i + 1) + ': '+  df.columns[i+1] + ' at ' + str(time_tick[i]) + " minute\n"
+                if (i < len(time_tick) - 1):
+                    txt = txt + 'Channel ' + str(i + 1) + ': '+  df.columns[i+1] + ' at ' + str(time_tick[i]) + " minute\n"
+                else:
+                    txt = txt + 'Channel ' + str(i + 1) + ': '+  df.columns[i+1] + ' at ' + str(time_tick[i]) + " minute"
             else:
                 txt = txt + 'Channel ' + str(i + 1) + ': '+  df.columns[i+1] + ' ' + time_tick[i] + ' \n'
 
         fig = ax.get_figure()
         fig.text(0.45, -0.05, txt, ha = 'left',  bbox = dict(facecolor = 'red', alpha = 0.4))
         fig.set_size_inches(16, 9, forward = True)
-        fig.savefig(filename + '_' + (str)(threshold * 100) + '%_threshold.png', dpi = 120)
+        fig.savefig(filename + '_' + (str)(threshold * 100) + '%_threshold.png', dpi = 120, bbox_inches = "tight")
         plt.show()
 
 
@@ -123,12 +126,15 @@ def threshold_errorbar(data, error, threshold, title, filepath):
         txt = 'Colour shift info: \n'
         for i in range (0, len(time_tick)):
             if (isinstance(time_tick[i], int)) :
-                txt = txt + 'Channel ' + str(i + 1) + ': '+  df.columns[i+1] + ' at ' + str(time_tick[i]) + " minute\n"
+                if (i < len(time_tick) - 1):
+                    txt = txt + 'Channel ' + str(i + 1) + ': '+  df.columns[i + 1] + ' at ' + str(time_tick[i]) + " minute\n"
+                else:
+                    txt = txt + 'Channel ' + str(i + 1) + ': '+  df.columns[i + 1] + ' at ' + str(time_tick[i]) + " minute"
             else:
                 txt = txt + 'Channel ' + str(i + 1) + ': '+  df.columns[i+1] + ' ' + time_tick[i] + ' \n'
 
         fig = ax.get_figure()
-        fig.text(0.45, -0.05, txt, ha = 'left',  bbox = dict(facecolor = 'red', alpha = 0.4))
+        fig.text(0.45, -0.05, txt, ha = 'left', bbox = dict(facecolor = 'red', alpha = 0.4))
         fig.set_size_inches(16, 9, forward = True)
-        fig.savefig(filename + '_' + (str)(threshold * 100) + '%_threshold.png', dpi = 120)
+        fig.savefig(filename + '_' + (str)(threshold * 100) + '%_threshold.png', dpi = 120, bbox_inches = "tight")
         plt.show()

@@ -70,8 +70,8 @@ def remove_string(col_list, col_num, col_unit, df):
     list_c = []
 
     for i in range (col_num):
-         list_c.append(col_list[i] +  ' ' + col_unit)
-
+         list_c.append(col_list[i] + ' ' + col_unit.strip())
+         
     df.columns = list_c
     # reset index
     df = df.reset_index(drop = True)
