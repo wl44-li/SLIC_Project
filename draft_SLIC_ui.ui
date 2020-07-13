@@ -5,7 +5,7 @@
     <property name="height">800</property>
     <property name="labelanchor">n</property>
     <property name="takefocus">false</property>
-    <property name="text" translatable="yes">SLIC Data Tool Ver 1.0</property>
+    <property name="text" translatable="yes">SLIC Data Tool Ver 1.1</property>
     <property name="width">800</property>
     <layout manager="pack">
       <property name="propagate">True</property>
@@ -42,7 +42,6 @@
         <property name="textvariable">int:number_file</property>
         <layout manager="pack">
           <property name="fill">both</property>
-          <property name="ipady">10</property>
           <property name="padx">10</property>
           <property name="propagate">True</property>
           <property name="side">top</property>
@@ -150,7 +149,6 @@
         <property name="textvariable">string:graph_title</property>
         <layout manager="pack">
           <property name="fill">both</property>
-          <property name="ipady">10</property>
           <property name="padx">10</property>
           <property name="propagate">True</property>
           <property name="side">top</property>
@@ -176,12 +174,137 @@
       <object class="tk.Button" id="button_2">
         <property name="command">button1_callback</property>
         <property name="font">TkDefaultFont</property>
+        <property name="overrelief">raised</property>
         <property name="text" translatable="yes">Choose file &amp; generate graph
 
 </property>
         <layout manager="pack">
           <property name="fill">x</property>
           <property name="padx">10</property>
+          <property name="pady">10</property>
+          <property name="propagate">True</property>
+          <property name="side">top</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="tk.Label" id="label_1_2_3">
+        <property name="text" translatable="yes">x max</property>
+        <layout manager="pack">
+          <property name="anchor">nw</property>
+          <property name="padx">10</property>
+          <property name="propagate">True</property>
+          <property name="side">top</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="tk.Entry" id="entry_1_2">
+        <property name="textvariable">double:x_max</property>
+        <layout manager="pack">
+          <property name="fill">x</property>
+          <property name="padx">10</property>
+          <property name="propagate">True</property>
+          <property name="side">top</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="tk.Label" id="label_4">
+        <layout manager="pack">
+          <property name="propagate">True</property>
+          <property name="side">top</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="tk.Label" id="label_5_6">
+        <property name="text" translatable="yes">x min</property>
+        <layout manager="pack">
+          <property name="anchor">nw</property>
+          <property name="padx">10</property>
+          <property name="propagate">True</property>
+          <property name="side">top</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="tk.Entry" id="entry_3">
+        <property name="textvariable">double:x_min</property>
+        <layout manager="pack">
+          <property name="fill">x</property>
+          <property name="padx">10</property>
+          <property name="propagate">True</property>
+          <property name="side">top</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="tk.Label" id="label_7_8">
+        <layout manager="pack">
+          <property name="propagate">True</property>
+          <property name="side">top</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="tk.Label" id="label_9">
+        <property name="text" translatable="yes">y max</property>
+        <layout manager="pack">
+          <property name="anchor">nw</property>
+          <property name="padx">10</property>
+          <property name="propagate">True</property>
+          <property name="side">top</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="tk.Entry" id="entry_4_5">
+        <property name="textvariable">double:y_max</property>
+        <layout manager="pack">
+          <property name="fill">x</property>
+          <property name="padx">10</property>
+          <property name="propagate">True</property>
+          <property name="side">top</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="tk.Label" id="label_10">
+        <layout manager="pack">
+          <property name="propagate">True</property>
+          <property name="side">top</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="tk.Label" id="label_11">
+        <property name="text" translatable="yes">y min</property>
+        <layout manager="pack">
+          <property name="anchor">nw</property>
+          <property name="padx">10</property>
+          <property name="propagate">True</property>
+          <property name="side">top</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="tk.Entry" id="entry_6_7">
+        <property name="textvariable">double:y_min</property>
+        <layout manager="pack">
+          <property name="fill">x</property>
+          <property name="padx">10</property>
+          <property name="propagate">True</property>
+          <property name="side">top</property>
+        </layout>
+      </object>
+    </child>
+    <child>
+      <object class="tk.Button" id="button_1">
+        <property name="command">button2_callback</property>
+        <property name="text" translatable="yes">Generate zoom graph</property>
+        <layout manager="pack">
+          <property name="ipady">10</property>
           <property name="pady">10</property>
           <property name="propagate">True</property>
           <property name="side">top</property>
