@@ -59,8 +59,9 @@ class SLIC_DataTool:
             df_list = [readFile(filename) for filename in file_list]
             clean_list = []
             # refine all dataframes
-            for df in df_list:
-                df = cleanData.refineData(col_list, num_c, col_u, df)
+            for i in range(0, len(df_list)):
+                df = cleanData.refineData(col_list, num_c, col_u, df_list[i])
+                cleanData.saveData(file_list[i], df)
                 # Add to list of refined dataframes
                 clean_list.append(df)
 
@@ -95,11 +96,7 @@ class SLIC_DataTool:
             data = readFile(file_list[0])
             if data is not None:
                 data = cleanData.remove_string(col_list, num_c, col_u, data)
-                print("Data refined\n")
                 data = cleanData.baseline_correct(data)
-                print("Data baseline corrected\n")
-                cleanData.saveData(file_list[0], data)
-                print("Data saved\n")
                 simpleGraph.threshold_zoom(data, threshold_p/100, graph_h, file_list[0], x_max, x_min, y_max, y_min)
 
         else:
@@ -112,7 +109,6 @@ class SLIC_DataTool:
             df_concat = pd.concat(clean_list)
             by_row_index = df_concat.groupby(df_concat.index)
             df_means = by_row_index.mean()
-            print("Data collated and averaged\n")
             df_sem = by_row_index.sem()
             simpleGraph.threshold_error_zoom(df_means, df_sem, threshold_p/100, graph_h, file_list[0], x_max, x_min, y_max, y_min)
         

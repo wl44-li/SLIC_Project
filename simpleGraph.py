@@ -44,10 +44,12 @@ def thresholdGraph(data, threshold, title, filepath):
             colors = np.where(df.iloc[:, (i-1)] > df.iloc[:, 0]*threshold, 'r', 'g')
             ax_i = df.reset_index().plot(x = 'index', y = i, kind = 'scatter', ax = ax, c = colors, marker = "|")
 
-            # Consecutive shift of 2 minute (120 seconds)
+            # Consecutive shift of n minute- DISCUSS ACCURACY (2 vs 5)
             if (len(green_list) >= 10):
-                for i in range(0, len(green_list) - 2):
-                    if (green_list[i] + 2 == green_list[i + 2]):
+                ''' DISCUSS ACCURACY
+                '''
+                for i in range(0, len(green_list) - 5):
+                    if (green_list[i] + 5 == green_list[i + 5]):
                         time_tick.append(green_list[i])
                         break
             else:
@@ -88,8 +90,10 @@ def threshold_zoom(data, threshold, title, filepath, xmax, xmin, ymax, ymin):
         ax_i = df.reset_index().plot(x = 'index', y = i, kind = 'scatter', ax = ax, c = colors, marker = "|")
 
         if (len(green_list) >= 10):
-            for i in range(0, len(green_list) - 2):
-                if (green_list[i] + 2 == green_list[i + 2]):
+            ''' DISCUSS ACCURACY
+            '''
+            for i in range(0, len(green_list) - 5):
+                if (green_list[i] + 5 == green_list[i + 5]):
                     time_tick.append(green_list[i])
                     break
         else:
@@ -142,8 +146,10 @@ def threshold_errorbar(data, error, threshold, title, filepath):
             ax_i = df.reset_index().plot(x = 'index', y = i, kind = 'scatter', ax = ax, c = colors, marker = ".")
 
             if (len(green_list) >= 10):
-                for i in range(0, len(green_list) - 2):
-                    if (green_list[i] + 2 == green_list[i + 2]):
+                ''' DISCUSS ACCURACY
+                '''
+                for i in range(0, len(green_list) - 5):
+                    if (green_list[i] + 5 == green_list[i + 5]):
                         time_tick.append(green_list[i])
                         break
             else:
@@ -185,8 +191,10 @@ def threshold_error_zoom(data, error, threshold, title, filepath, xmax, xmin, ym
         ax_i = df.reset_index().plot(x = 'index', y = i, kind = 'scatter', ax = ax, c = colors, marker = ".")
 
         if (len(green_list) >= 10):
-            for i in range(0, len(green_list) - 2):
-                if (green_list[i] + 2 == green_list[i + 2]):
+            ''' DISCUSS ACCURACY
+            '''
+            for i in range(0, len(green_list) - 5):
+                if (green_list[i] + 5 == green_list[i + 5]):
                     time_tick.append(green_list[i])
                     break
         else:
