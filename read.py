@@ -17,10 +17,14 @@ root.withdraw()
 raw_file_path = filedialog.askopenfilename()
 
 # Extract list of column variables from filepath -> Change to Tkinter GUI later
+'''
 base = os.path.basename(raw_file_path)
 baseFile = os.path.splitext(base)[0]
 channel_string = baseFile.split('(')[0]
 col_list = [x.strip() for x in channel_string.split(',')]
+
+'''
+col_list = [0, 1, 2, 3, 4, 5]
 data = readFile(raw_file_path)
 
 if data is not None:
@@ -32,9 +36,12 @@ if data is not None:
 
     cleanData.saveData(raw_file_path, data)
     print("Data saved\n")
+    
+    '''
 
     # Simple seconds and minutes graph
     simpleGraph.graph(data, raw_file_path)
 
     # scatter graph based on threshold (value between 0 to 1) given via GUI
     simpleGraph.thresholdGraph(data, 0.25, "Threshold graph", raw_file_path)
+    '''

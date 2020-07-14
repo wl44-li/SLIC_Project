@@ -1,6 +1,7 @@
 import pandas as pd
 import os
 from fileHelper import *
+import re
 
 def clean(filepath):
     """Functions to check data, refine data and save data to a new clean .tsv file"""
@@ -27,7 +28,10 @@ def refineData(col_list, num, col_unit, data):
     data = baseline_correct(data)
     return data
 
+def extract(string):
 
+    return re.sub('^.*?-+', '-', string)
+    
 def remove_string(col_list, col_num, col_unit, df):
     """
     Remove extra 'System running' as noise
@@ -44,14 +48,18 @@ def remove_string(col_list, col_num, col_unit, df):
 
     if len(start_list) > 1:
         print("Warning: More than one 'System start' detected")
-        # remove error system starts
+        # remove error system startsp
         df = df.iloc[start_list[len(start_list) - 1]:]
         print(start_list[len(start_list) - 1], "rows have been removed from start\n")
 
     # remove all alphabets
     df.iloc[:, 0] = df.iloc[:, 0].str.replace(r"[a-zA-Z]", '')
-    df.iloc[:, 0] = df.iloc[:, 0].str.replace("#", '')
-
+    # remove all symbols except - and . (numerical values)
+    df.iloc[:, 0] = df.iloc[:, 0].str.replace(r"[^\w\s^.^-]|_", '')
+    
+    # remove everything before - sign
+    df.iloc[:, 0] = df.iloc[:, 0].apply(extract)
+    
     # split into channels by space
     df = df[0].str.split(expand = True)
 
@@ -61,18 +69,19 @@ def remove_string(col_list, col_num, col_unit, df):
         df.drop(df.columns[-1], axis = 1, inplace = True)
 
     # remove entry with less than 6 channels of data
-    df = df[df[5].notna()]
+    df = df[df[col_num - 1].notna()]
 
-    # remove the first three rows from "warmming up" SLIC - Customisable via GUI
+    # remove the first three rows from "warmming up" SLIC - Customisable via GUI ?
     df = df.iloc[3:]
 
     # rename header (Currently at 6 channels, first being the control)
     list_c = []
 
     for i in range (col_num):
-         list_c.append(col_list[i] + ' ' + col_unit.strip())
+         list_c.append(str(col_list[i]) + ' ' + col_unit.strip())
          
     df.columns = list_c
+    
     # reset index
     df = df.reset_index(drop = True)
     return df

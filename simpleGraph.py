@@ -71,7 +71,7 @@ def thresholdGraph(data, threshold, title, filepath):
                 txt = txt + 'Channel ' + str(i + 1) + ': '+  df.columns[i+1] + ' ' + time_tick[i] + ' \n'
         
         fig = ax.get_figure()
-        fig.text(0.45, -0.05, txt, ha = 'left',  bbox = dict(facecolor = 'red', alpha = 0.4))
+        fig.text(0.45, -0.05, txt, ha = 'left',  bbox = dict(facecolor = 'red', alpha = 0.4)) # Allow to hide option in GUI
         fig.set_size_inches(16, 9, forward = True)
         fig.savefig(filename + '_' + (str)(threshold * 100) + '%_threshold.png', dpi = 120, bbox_inches = "tight")
         plt.show()
