@@ -29,8 +29,12 @@ def refineData(col_list, num, col_unit, data):
     return data
 
 def extract(string):
-
-    return re.sub('^.*?-+', '-', string)
+    '''
+    if (len(string) > 3):
+        if (string[0] == '-' and string[1] == '-'): 
+            return re.sub('^.*?--', '-', string)
+    '''
+    return re.sub('^\d*\.*\^*-+', '-', string)
     
 def remove_string(col_list, col_num, col_unit, df):
     """
@@ -51,17 +55,25 @@ def remove_string(col_list, col_num, col_unit, df):
         # remove error system startsp
         df = df.iloc[start_list[len(start_list) - 1]:]
         print(start_list[len(start_list) - 1], "rows have been removed from start\n")
+          
+    #print(df)
 
     # remove all alphabets
     df.iloc[:, 0] = df.iloc[:, 0].str.replace(r"[a-zA-Z]", '')
+    
+    #print(df)
+    
     # remove all symbols except - and . (numerical values)
     df.iloc[:, 0] = df.iloc[:, 0].str.replace(r"[^\w\s^.^-]|_", '')
+    #print(df)
     
     # remove everything before - sign
     df.iloc[:, 0] = df.iloc[:, 0].apply(extract)
     
     # split into channels by space
     df = df[0].str.split(expand = True)
+    
+    #print(df)
 
     # Intepretate 6 channels
     while (len(df.columns) > col_num):
@@ -92,6 +104,7 @@ def baseline_correct(df):
     """
     # treat all columns as numeric values
     df = df.apply(pd.to_numeric)
+    #print(df)
 
     # substract first row from all other rows
     df = df - df.iloc[0]

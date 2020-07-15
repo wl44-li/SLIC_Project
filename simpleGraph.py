@@ -22,7 +22,7 @@ def graph(data, filepath):
     plt.show()
 
 
-def thresholdGraph(data, threshold, title, filepath):
+def thresholdGraph(data, threshold, title, filepath, isShow):
     if (threshold > 1 or threshold < 0):
         print("Invalid threshold, must be a number between 0 to 1")
         return None
@@ -48,8 +48,8 @@ def thresholdGraph(data, threshold, title, filepath):
             if (len(green_list) >= 10):
                 ''' DISCUSS ACCURACY
                 '''
-                for i in range(0, len(green_list) - 5):
-                    if (green_list[i] + 5 == green_list[i + 5]):
+                for i in range(0, len(green_list) - 10):
+                    if (green_list[i] + 10 == green_list[i + 10]):
                         time_tick.append(green_list[i])
                         break
             else:
@@ -71,13 +71,14 @@ def thresholdGraph(data, threshold, title, filepath):
                 txt = txt + 'Channel ' + str(i + 1) + ': '+  df.columns[i+1] + ' ' + time_tick[i] + ' \n'
         
         fig = ax.get_figure()
-        fig.text(0.45, -0.05, txt, ha = 'left',  bbox = dict(facecolor = 'red', alpha = 0.4)) # Allow to hide option in GUI
+        if (isShow):
+            fig.text(0.45, -0.05, txt, ha = 'left',  bbox = dict(facecolor = 'red', alpha = 0.4))
         fig.set_size_inches(16, 9, forward = True)
         fig.savefig(filename + '_' + (str)(threshold * 100) + '%_threshold.png', dpi = 120, bbox_inches = "tight")
         plt.show()
 
 
-def threshold_zoom(data, threshold, title, filepath, xmax, xmin, ymax, ymin):
+def threshold_zoom(data, threshold, title, filepath, isShow, xmax, xmin, ymax, ymin):
     filename = os.path.splitext(filepath)[0]
     df = data.groupby(np.arange(len(data))//60).mean()
     ax = df.plot()
@@ -114,7 +115,8 @@ def threshold_zoom(data, threshold, title, filepath, xmax, xmin, ymax, ymin):
             txt = txt + 'Channel ' + str(i + 1) + ': '+  df.columns[i+1] + ' ' + time_tick[i] + ' \n'
     
     fig = ax.get_figure()
-    fig.text(0.45, -0.05, txt, ha = 'left',  bbox = dict(facecolor = 'red', alpha = 0.4))
+    if (isShow):
+        fig.text(0.45, -0.05, txt, ha = 'left',  bbox = dict(facecolor = 'red', alpha = 0.4))
     fig.set_size_inches(16, 9, forward = True)
     ax_zoom = ax
     ax_zoom.set_xlim([xmin, xmax])
@@ -124,7 +126,7 @@ def threshold_zoom(data, threshold, title, filepath, xmax, xmin, ymax, ymin):
     plt.show()
 
 
-def threshold_errorbar(data, error, threshold, title, filepath):
+def threshold_errorbar(data, error, threshold, title, filepath, isShow):
     if (threshold > 1 or threshold < 0):
         print("Invalid threshold, must be a number between 0 to 1")
         return None
@@ -171,12 +173,13 @@ def threshold_errorbar(data, error, threshold, title, filepath):
                 txt = txt + 'Channel ' + str(i + 1) + ': '+  df.columns[i + 1] + ' ' + time_tick[i] + ' \n'
 
         fig = ax.get_figure()
-        fig.text(0.45, -0.05, txt, ha = 'left', bbox = dict(facecolor = 'red', alpha = 0.4))
+        if (isShow):
+            fig.text(0.45, -0.05, txt, ha = 'left',  bbox = dict(facecolor = 'red', alpha = 0.4))        
         fig.set_size_inches(16, 9, forward = True)
         fig.savefig(filename + '_' + (str)(threshold * 100) + '%_threshold.png', dpi = 120, bbox_inches = "tight")
                 
 
-def threshold_error_zoom(data, error, threshold, title, filepath, xmax, xmin, ymax, ymin):
+def threshold_error_zoom(data, error, threshold, title, isShow, filepath, xmax, xmin, ymax, ymin):
     filename = os.path.splitext(filepath)[0]
     df = data.groupby(np.arange(len(data))//60).mean()
     df_err = error[error.index % 60 == 0]
@@ -216,7 +219,8 @@ def threshold_error_zoom(data, error, threshold, title, filepath, xmax, xmin, ym
             txt = txt + 'Channel ' + str(i + 1) + ': '+  df.columns[i + 1] + ' ' + time_tick[i] + ' \n'
 
     fig = ax.get_figure()
-    fig.text(0.45, -0.05, txt, ha = 'left', bbox = dict(facecolor = 'red', alpha = 0.4))
+    if (isShow):
+        fig.text(0.45, -0.05, txt, ha = 'left',  bbox = dict(facecolor = 'red', alpha = 0.4))      
     fig.set_size_inches(16, 9, forward = True)
     ax_zoom = ax
     ax_zoom.set_xlim([xmin, xmax])

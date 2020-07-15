@@ -1,27 +1,22 @@
-import tkinter as tk
 from tkinter import filedialog
 import pygubu
 import cleanData
 from fileHelper import readFile
 import pandas as pd
 import simpleGraph
-
+import sys
 class SLIC_DataTool:
-    ''' Single button click SLIC_GUI prototype
-    '''
+
     def __init__(self):
         #1: Create a builder
         self.builder = builder = pygubu.Builder()
 
         #2: Load an ui file
-        builder.add_from_file('draft_SLIC_ui.ui')
+        builder.add_from_file('SLIC_ui_1.2.ui')
 
         #3: Create the mainwindow
         self.mainwindow = builder.get_object("Data_Func")
         builder.connect_callbacks(self)
-
-    def run(self):
-        self.mainwindow.mainloop()
 
     def button1_callback(self):
         ''' Click action of the first button - Threshold graph
@@ -33,7 +28,8 @@ class SLIC_DataTool:
         col_u = self.builder.tkvariables['col_unit'].get()
         graph_h = self.builder.tkvariables['graph_title'].get()
         threshold_p = self.builder.tkvariables['threshold'].get()
-
+        isShow = self.builder.tkvariables['is_show'].get()
+            
         col_list = [x.strip() for x in col_h.split()]
         file_list = []
 
@@ -52,7 +48,7 @@ class SLIC_DataTool:
                 print("Data baseline corrected\n")
                 cleanData.saveData(file_list[0], data)
                 print("Data saved\n")
-                simpleGraph.thresholdGraph(data, threshold_p/100, graph_h, file_list[0])
+                simpleGraph.thresholdGraph(data, threshold_p/100, graph_h, file_list[0], isShow)
 
         # multiple raw data files
         else:
@@ -71,10 +67,13 @@ class SLIC_DataTool:
             df_means = by_row_index.mean()
             print("Data collated and averaged\n")
             df_sem = by_row_index.sem()
-            simpleGraph.thresholdGraph(df_means, threshold_p/100, graph_h, file_list[0].split('(')[0] + '_avg_')
-            simpleGraph.threshold_errorbar(df_means, df_sem, threshold_p/100, graph_h, file_list[0].split('(')[0] + '_avg_error_bar')
+            simpleGraph.thresholdGraph(df_means, threshold_p/100, graph_h, file_list[0].split('(')[0] + '_avg_', isShow)
+            simpleGraph.threshold_errorbar(df_means, df_sem, threshold_p/100, graph_h, file_list[0].split('(')[0] + '_avg_error_bar', isShow)
+
 
     def button2_callback(self):
+        ''' Click action of second button - Zoom in snapshot 
+        '''
         num_f = self.builder.tkvariables['number_file'].get()
         num_c = self.builder.tkvariables['channel_number'].get()
         col_h = self.builder.tkvariables['col_list'].get()
@@ -85,6 +84,8 @@ class SLIC_DataTool:
         x_max = self.builder.tkvariables['x_max'].get()
         y_min = self.builder.tkvariables['y_min'].get()
         y_max = self.builder.tkvariables['y_max'].get()
+        isShow = self.builder.tkvariables['is_show'].get()
+
         col_list = [x.strip() for x in col_h.split()]
         file_list = []
 
@@ -97,7 +98,7 @@ class SLIC_DataTool:
             if data is not None:
                 data = cleanData.remove_string(col_list, num_c, col_u, data)
                 data = cleanData.baseline_correct(data)
-                simpleGraph.threshold_zoom(data, threshold_p/100, graph_h, file_list[0], x_max, x_min, y_max, y_min)
+                simpleGraph.threshold_zoom(data, threshold_p/100, graph_h, file_list[0], isShow, x_max, x_min, y_max, y_min)
 
         else:
             df_list = [readFile(filename) for filename in file_list]
@@ -110,8 +111,14 @@ class SLIC_DataTool:
             by_row_index = df_concat.groupby(df_concat.index)
             df_means = by_row_index.mean()
             df_sem = by_row_index.sem()
-            simpleGraph.threshold_error_zoom(df_means, df_sem, threshold_p/100, graph_h, file_list[0], x_max, x_min, y_max, y_min)
+            simpleGraph.threshold_error_zoom(df_means, df_sem, threshold_p/100, graph_h, file_list[0], isShow, x_max, x_min, y_max, y_min)  
         
+    def run(self):
+        self.mainwindow.mainloop()  
+        
+    def quit_callback(self):
+        self.mainwindow.destroy()
+        sys.exit()
         
 if __name__ == '__main__':
     app = SLIC_DataTool()

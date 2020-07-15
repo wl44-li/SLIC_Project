@@ -54,7 +54,7 @@ print(df_sem)
 
 # generate graph from averaged data
 simpleGraph.graph(df_means, file_list[0].split('(')[0] + '_avg_')
-simpleGraph.thresholdGraph(df_means, 0.50, "Threshold Graph", file_list[0].split('(')[0] + '_avg_')
+simpleGraph.thresholdGraph(df_means, 0.50, "Threshold Graph", file_list[0].split('(')[0] + '_avg_', True)
 
 # option to add error bars
-simpleGraph.threshold_errorbar(df_means, df_sem, 0.50, "Threshold Graph", file_list[0].split('(')[0] + '_avg_error_bar')
+simpleGraph.threshold_errorbar(df_means, df_sem, 0.50, "Threshold Graph", file_list[0].split('(')[0] + '_avg_error_bar', True)
