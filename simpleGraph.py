@@ -2,7 +2,6 @@ import matplotlib.pyplot as plt
 import os
 import numpy as np
 
-
 def graph(data, filepath):
     filename = os.path.splitext(filepath)[0]
     ax_sec = data.plot()
@@ -29,18 +28,12 @@ def thresholdGraph(data, threshold, title, filepath, isShow):
 
     else:
         filename = os.path.splitext(filepath)[0]
-        
-        # Plot data every 60 seconds (rolling average)
         df = data.groupby(np.arange(len(data))//60).mean()
         ax = df.plot()
         ax_ctrl = df.reset_index().plot(x = 'index', y = 1, kind = 'scatter', ax = ax, c = "b")
-
         time_tick = []
-        # scatter other columns one by one
         for i in range(2, len(df.columns) + 1):
             green_list = df.iloc[:, (i - 1)][df.iloc[:, (i-1)] < df.iloc[:, 0] * threshold].index.tolist()
-
-            # above threashold is coloured RED, below is GREEN
             colors = np.where(df.iloc[:, (i-1)] > df.iloc[:, 0]*threshold, 'r', 'g')
             ax_i = df.reset_index().plot(x = 'index', y = i, kind = 'scatter', ax = ax, c = colors, marker = "|")
 
@@ -48,8 +41,8 @@ def thresholdGraph(data, threshold, title, filepath, isShow):
             if (len(green_list) >= 10):
                 ''' DISCUSS ACCURACY
                 '''
-                for i in range(0, len(green_list) - 10):
-                    if (green_list[i] + 10 == green_list[i + 10]):
+                for i in range(2, len(green_list) - 5):
+                    if (green_list[i] + 5 == green_list[i + 5]):
                         time_tick.append(green_list[i])
                         break
             else:
@@ -83,7 +76,6 @@ def threshold_zoom(data, threshold, title, filepath, isShow, xmax, xmin, ymax, y
     df = data.groupby(np.arange(len(data))//60).mean()
     ax = df.plot()
     ax_ctrl = df.reset_index().plot(x = 'index', y = 1, kind = 'scatter', ax = ax, c = "b")
-
     time_tick = []
     for i in range(2, len(df.columns) + 1):
         green_list = df.iloc[:, (i - 1)][df.iloc[:, (i-1)] < df.iloc[:, 0] * threshold].index.tolist()
@@ -93,7 +85,7 @@ def threshold_zoom(data, threshold, title, filepath, isShow, xmax, xmin, ymax, y
         if (len(green_list) >= 10):
             ''' DISCUSS ACCURACY
             '''
-            for i in range(0, len(green_list) - 5):
+            for i in range(2, len(green_list) - 5):
                 if (green_list[i] + 5 == green_list[i + 5]):
                     time_tick.append(green_list[i])
                     break
@@ -139,18 +131,15 @@ def threshold_errorbar(data, error, threshold, title, filepath, isShow):
         ax_ctrl = df.reset_index().plot(x = 'index', y = 1, kind = 'scatter', ax = ax, c = "b")
         time_tick = []
 
-        # scatter other columns one by one
         for i in range(2, len(df.columns) + 1):
             green_list = df.iloc[:, (i-1)][df.iloc[:, (i-1)] < df.iloc[:, 0]*threshold].index.tolist()
-
-            # above threashold is RED, below is GREEN
             colors = np.where(df.iloc[:, (i-1)] > df.iloc[:, 0]*threshold, 'r', 'g')
             ax_i = df.reset_index().plot(x = 'index', y = i, kind = 'scatter', ax = ax, c = colors, marker = ".")
 
             if (len(green_list) >= 10):
                 ''' DISCUSS ACCURACY
                 '''
-                for i in range(0, len(green_list) - 5):
+                for i in range(2, len(green_list) - 5):
                     if (green_list[i] + 5 == green_list[i + 5]):
                         time_tick.append(green_list[i])
                         break
@@ -176,8 +165,9 @@ def threshold_errorbar(data, error, threshold, title, filepath, isShow):
         if (isShow):
             fig.text(0.45, -0.05, txt, ha = 'left',  bbox = dict(facecolor = 'red', alpha = 0.4))        
         fig.set_size_inches(16, 9, forward = True)
-        fig.savefig(filename + '_' + (str)(threshold * 100) + '%_threshold.png', dpi = 120, bbox_inches = "tight")
-                
+        fig.savefig(filename + '_' + (str)(threshold * 100) + '%_threshold_errorbar.png', dpi = 120, bbox_inches = "tight")
+        plt.show()
+    
 
 def threshold_error_zoom(data, error, threshold, title, isShow, filepath, xmax, xmin, ymax, ymin):
     filename = os.path.splitext(filepath)[0]
@@ -196,7 +186,7 @@ def threshold_error_zoom(data, error, threshold, title, isShow, filepath, xmax, 
         if (len(green_list) >= 10):
             ''' DISCUSS ACCURACY
             '''
-            for i in range(0, len(green_list) - 5):
+            for i in range(2, len(green_list) - 5):
                 if (green_list[i] + 5 == green_list[i + 5]):
                     time_tick.append(green_list[i])
                     break

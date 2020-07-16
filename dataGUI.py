@@ -5,23 +5,22 @@ from fileHelper import readFile
 import pandas as pd
 import simpleGraph
 import sys
+
 class SLIC_DataTool:
+    ''' Main class
+    '''
 
     def __init__(self):
-        #1: Create a builder
+        ''' Initilise GUI
+        '''
         self.builder = builder = pygubu.Builder()
-
-        #2: Load an ui file
         builder.add_from_file('SLIC_ui_1.2.ui')
-
-        #3: Create the mainwindow
         self.mainwindow = builder.get_object("Data_Func")
         builder.connect_callbacks(self)
 
     def button1_callback(self):
         ''' Click action of the first button - Threshold graph
         '''
-        # Get user inputs from GUI
         num_f = self.builder.tkvariables['number_file'].get()
         num_c = self.builder.tkvariables['channel_number'].get()
         col_h = self.builder.tkvariables['col_list'].get()
@@ -33,12 +32,10 @@ class SLIC_DataTool:
         col_list = [x.strip() for x in col_h.split()]
         file_list = []
 
-        # range can be changed via GUI
         for i in range(num_f):
             filename = filedialog.askopenfilename()
             file_list.append(filename)
 
-        # single data file
         if num_f == 1:
             data = readFile(file_list[0])
             if data is not None:
@@ -50,25 +47,21 @@ class SLIC_DataTool:
                 print("Data saved\n")
                 simpleGraph.thresholdGraph(data, threshold_p/100, graph_h, file_list[0], isShow)
 
-        # multiple raw data files
         else:
             df_list = [readFile(filename) for filename in file_list]
             clean_list = []
-            # refine all dataframes
             for i in range(0, len(df_list)):
                 df = cleanData.refineData(col_list, num_c, col_u, df_list[i])
                 cleanData.saveData(file_list[i], df)
-                # Add to list of refined dataframes
                 clean_list.append(df)
 
-            # Concate dataframes together
             df_concat = pd.concat(clean_list)
             by_row_index = df_concat.groupby(df_concat.index)
             df_means = by_row_index.mean()
             print("Data collated and averaged\n")
             df_sem = by_row_index.sem()
-            simpleGraph.thresholdGraph(df_means, threshold_p/100, graph_h, file_list[0].split('(')[0] + '_avg_', isShow)
-            simpleGraph.threshold_errorbar(df_means, df_sem, threshold_p/100, graph_h, file_list[0].split('(')[0] + '_avg_error_bar', isShow)
+            simpleGraph.thresholdGraph(df_means, threshold_p/100, graph_h, file_list[0], isShow)
+            simpleGraph.threshold_errorbar(df_means, df_sem, threshold_p/100, graph_h, file_list[0], isShow)
 
 
     def button2_callback(self):
@@ -117,6 +110,8 @@ class SLIC_DataTool:
         self.mainwindow.mainloop()  
         
     def quit_callback(self):
+        ''' Click action for quit button
+        '''
         self.mainwindow.destroy()
         sys.exit()
         

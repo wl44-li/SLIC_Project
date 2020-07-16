@@ -31,7 +31,6 @@ col_list = [x.strip() for x in channel_string.split(',')]
 
 # Populate a list of dateframe from raw data
 df_list = [readFile(filename) for filename in file_list]
-
 clean_list = []
 
 # refine all dataframes
@@ -49,8 +48,7 @@ df_means = by_row_index.mean()
 
 # Standard error calcualted based on mean
 df_sem = by_row_index.sem()
-
-print(df_sem)
+# print(df_sem)
 
 # generate graph from averaged data
 simpleGraph.graph(df_means, file_list[0].split('(')[0] + '_avg_')

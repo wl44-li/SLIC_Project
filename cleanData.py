@@ -3,41 +3,53 @@ import os
 from fileHelper import *
 import re
 
-def clean(filepath):
-    """Functions to check data, refine data and save data to a new clean .tsv file"""
-    data = readFile(filepath)
-    if data is not None:
-        data = refineData(data)
-        saveData(filepath, data)
-
-# ask save directory from user
 def saveData(filepath, data):
-    """
-    Saves pre-processed data to a new csv file in the same directory
-    """
+    ''' Save data to new csv file
+    Parameters
+    ----------
+    filepath : directory of original raw data
+    data : data to be saved
+    '''
     filename = os.path.splitext(filepath)[0]
     data.to_csv(filename + "_clean.csv", index = False)
 
 
 def refineData(col_list, num, col_unit, data):
-    """
-    First remove extra string
-    Then perform baseline correction
-    """
+    ''' Remove string + baseline correct
+    
+    Parameters
+    ----------
+    col_list : data of channels
+    num : number of channels
+    col_unit : unit of channels
+    data : raw dataframe
+
+    Returns
+    -------
+    data : cleaned and baseline corrected
+        dataframe.
+
+    '''
     data = remove_string(col_list, num, col_unit, data)
     data = baseline_correct(data)
     return data
 
 def extract(string):
-    '''
-    if (len(string) > 3):
-        if (string[0] == '-' and string[1] == '-'): 
-            return re.sub('^.*?--', '-', string)
+    ''' Extra cleanning function to deal with negative entries
+
+    Parameters
+    ----------
+    string : string to clean
+
+    Returns
+    -------
+    string without any number, - or . in front
     '''
     return re.sub('^\d*\.*\^*-+', '-', string)
     
 def remove_string(col_list, col_num, col_unit, df):
-    """
+    ''' Support version 7 of SLIC
+    
     Remove extra 'System running' as noise
     Remove all alphabets
     Expand to 6 OR more channels (up to 64)
@@ -46,8 +58,18 @@ def remove_string(col_list, col_num, col_unit, df):
     Remove first 3 rows (warmming up SLIC)
     Rename column headers
     Reset index
-    """
 
+    Parameters
+    ----------
+    col_list : list of column entries.
+    col_num : number of channels.
+    col_unit : unit of channel.
+    df : raw dataframe.
+
+    Returns
+    -------
+    df : cleaned dataframe.
+    '''
     start_list = df[0][df[0] == 'OK System running'].index.tolist()
 
     if len(start_list) > 1:
@@ -56,56 +78,37 @@ def remove_string(col_list, col_num, col_unit, df):
         df = df.iloc[start_list[len(start_list) - 1]:]
         print(start_list[len(start_list) - 1], "rows have been removed from start\n")
           
-    #print(df)
-
-    # remove all alphabets
     df.iloc[:, 0] = df.iloc[:, 0].str.replace(r"[a-zA-Z]", '')
-    
-    #print(df)
-    
-    # remove all symbols except - and . (numerical values)
     df.iloc[:, 0] = df.iloc[:, 0].str.replace(r"[^\w\s^.^-]|_", '')
-    #print(df)
-    
-    # remove everything before - sign
     df.iloc[:, 0] = df.iloc[:, 0].apply(extract)
-    
-    # split into channels by space
     df = df[0].str.split(expand = True)
     
-    #print(df)
-
-    # Intepretate 6 channels
     while (len(df.columns) > col_num):
-        # delete redundant columns (last 2 for example) --- Works on Version 7 of SLIC data
         df.drop(df.columns[-1], axis = 1, inplace = True)
 
-    # remove entry with less than 6 channels of data
     df = df[df[col_num - 1].notna()]
-
-    # remove the first three rows from "warmming up" SLIC - Customisable via GUI ?
     df = df.iloc[3:]
-
-    # rename header (Currently at 6 channels, first being the control)
     list_c = []
 
     for i in range (col_num):
          list_c.append(str(col_list[i]) + ' ' + col_unit.strip())
          
     df.columns = list_c
-    
-    # reset index
     df = df.reset_index(drop = True)
     return df
 
 def baseline_correct(df):
-    """
-    Substract first row from all rows
-    """
-    # treat all columns as numeric values
-    df = df.apply(pd.to_numeric)
-    #print(df)
+    ''' Perform baseline correction
 
-    # substract first row from all other rows
+    Parameters
+    ----------
+    df : dataframe
+
+    Returns
+    -------
+    df : dataframe
+    '''
+
+    df = df.apply(pd.to_numeric)
     df = df - df.iloc[0]
     return df
