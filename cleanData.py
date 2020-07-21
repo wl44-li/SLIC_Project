@@ -70,7 +70,7 @@ def remove_string(col_list, col_num, col_unit, df):
     -------
     df : cleaned dataframe.
     '''
-    start_list = df[0][df[0] == 'OK System running'].index.tolist()
+    start_list = df.iloc[:, 0][df.iloc[:, 0] == 'OK System running'].index.tolist()
 
     if len(start_list) > 1:
         print("Warning: More than one 'System start' detected")

@@ -33,16 +33,15 @@ def thresholdGraph(data, threshold, title, filepath, isShow):
         ax_ctrl = df.reset_index().plot(x = 'index', y = 1, kind = 'scatter', ax = ax, c = "b")
         time_tick = []
         for i in range(2, len(df.columns) + 1):
-            green_list = df.iloc[:, (i - 1)][df.iloc[:, (i-1)] < df.iloc[:, 0] * threshold].index.tolist()
-            colors = np.where(df.iloc[:, (i-1)] > df.iloc[:, 0]*threshold, 'r', 'g')
+            green_list = df.iloc[:, (i - 1)][df.iloc[:, (i - 1)] < df.iloc[:, 0] * threshold].index.tolist()
+            colors = np.where(df.iloc[:, (i - 1)] > df.iloc[:, 0]*threshold, 'r', 'g')
             ax_i = df.reset_index().plot(x = 'index', y = i, kind = 'scatter', ax = ax, c = colors, marker = "|")
 
-            # Consecutive shift of n minute- DISCUSS ACCURACY (2 vs 5)
             if (len(green_list) >= 10):
                 ''' DISCUSS ACCURACY
                 '''
-                for i in range(2, len(green_list) - 5):
-                    if (green_list[i] + 5 == green_list[i + 5]):
+                for i in range(2, len(green_list) - 10):
+                    if (green_list[i] + 2 == green_list[i + 2]):
                         time_tick.append(green_list[i])
                         break
             else:
@@ -57,11 +56,11 @@ def thresholdGraph(data, threshold, title, filepath, isShow):
         for i in range (0, len(time_tick)):
             if (isinstance(time_tick[i], int)) :
                 if (i < len(time_tick) - 1):
-                    txt = txt + 'Channel ' + str(i + 1) + ': '+  df.columns[i+1] + ' at ' + str(time_tick[i]) + " minute\n"
+                    txt = txt + 'Channel ' + str(i + 1) + ': '+  df.columns[i + 1] + ' at ' + str(time_tick[i]) + " minute\n"
                 else:
-                    txt = txt + 'Channel ' + str(i + 1) + ': '+  df.columns[i+1] + ' at ' + str(time_tick[i]) + " minute"
+                    txt = txt + 'Channel ' + str(i + 1) + ': '+  df.columns[i + 1] + ' at ' + str(time_tick[i]) + " minute"
             else:
-                txt = txt + 'Channel ' + str(i + 1) + ': '+  df.columns[i+1] + ' ' + time_tick[i] + ' \n'
+                txt = txt + 'Channel ' + str(i + 1) + ': '+  df.columns[i + 1] + ' ' + time_tick[i] + ' \n'
         
         fig = ax.get_figure()
         if (isShow):
@@ -78,15 +77,15 @@ def threshold_zoom(data, threshold, title, filepath, isShow, xmax, xmin, ymax, y
     ax_ctrl = df.reset_index().plot(x = 'index', y = 1, kind = 'scatter', ax = ax, c = "b")
     time_tick = []
     for i in range(2, len(df.columns) + 1):
-        green_list = df.iloc[:, (i - 1)][df.iloc[:, (i-1)] < df.iloc[:, 0] * threshold].index.tolist()
-        colors = np.where(df.iloc[:, (i-1)] > df.iloc[:, 0]*threshold, 'r', 'g')
+        green_list = df.iloc[:, (i - 1)][df.iloc[:, (i - 1)] < df.iloc[:, 0] * threshold].index.tolist()
+        colors = np.where(df.iloc[:, (i - 1)] > df.iloc[:, 0]*threshold, 'r', 'g')
         ax_i = df.reset_index().plot(x = 'index', y = i, kind = 'scatter', ax = ax, c = colors, marker = "|")
 
         if (len(green_list) >= 10):
             ''' DISCUSS ACCURACY
             '''
             for i in range(2, len(green_list) - 5):
-                if (green_list[i] + 5 == green_list[i + 5]):
+                if (green_list[i] + 2 == green_list[i + 2]):
                     time_tick.append(green_list[i])
                     break
         else:
@@ -100,11 +99,11 @@ def threshold_zoom(data, threshold, title, filepath, isShow, xmax, xmin, ymax, y
     for i in range (0, len(time_tick)):
         if (isinstance(time_tick[i], int)) :
             if (i < len(time_tick) - 1):
-                txt = txt + 'Channel ' + str(i + 1) + ': '+  df.columns[i+1] + ' at ' + str(time_tick[i]) + " minute\n"
+                txt = txt + 'Channel ' + str(i + 1) + ': '+  df.columns[i + 1] + ' at ' + str(time_tick[i]) + " minute\n"
             else:
-                txt = txt + 'Channel ' + str(i + 1) + ': '+  df.columns[i+1] + ' at ' + str(time_tick[i]) + " minute"
+                txt = txt + 'Channel ' + str(i + 1) + ': '+  df.columns[i + 1] + ' at ' + str(time_tick[i]) + " minute"
         else:
-            txt = txt + 'Channel ' + str(i + 1) + ': '+  df.columns[i+1] + ' ' + time_tick[i] + ' \n'
+            txt = txt + 'Channel ' + str(i + 1) + ': '+  df.columns[i + 1] + ' ' + time_tick[i] + ' \n'
     
     fig = ax.get_figure()
     if (isShow):
@@ -127,20 +126,20 @@ def threshold_errorbar(data, error, threshold, title, filepath, isShow):
         df = data.groupby(np.arange(len(data))//60).mean()
         df_err = error[error.index % 60 == 0]
         df_err = df_err.reset_index(drop = True)
-        ax = df.plot(yerr = df_err, linestyle = '-', linewidth = 0.8)
+        ax = df.plot(yerr = df_err, linestyle = '-', linewidth = 0.75)
         ax_ctrl = df.reset_index().plot(x = 'index', y = 1, kind = 'scatter', ax = ax, c = "b")
         time_tick = []
 
         for i in range(2, len(df.columns) + 1):
-            green_list = df.iloc[:, (i-1)][df.iloc[:, (i-1)] < df.iloc[:, 0]*threshold].index.tolist()
-            colors = np.where(df.iloc[:, (i-1)] > df.iloc[:, 0]*threshold, 'r', 'g')
+            green_list = df.iloc[:, (i - 1)][df.iloc[:, (i - 1)] < df.iloc[:, 0]*threshold].index.tolist()
+            colors = np.where(df.iloc[:, (i - 1)] > df.iloc[:, 0]*threshold, 'r', 'g')
             ax_i = df.reset_index().plot(x = 'index', y = i, kind = 'scatter', ax = ax, c = colors, marker = ".")
 
             if (len(green_list) >= 10):
                 ''' DISCUSS ACCURACY
                 '''
-                for i in range(2, len(green_list) - 5):
-                    if (green_list[i] + 5 == green_list[i + 5]):
+                for i in range(2, len(green_list) - 2):
+                    if (green_list[i] + 2 == green_list[i + 2]):
                         time_tick.append(green_list[i])
                         break
             else:
@@ -151,21 +150,21 @@ def threshold_errorbar(data, error, threshold, title, filepath, isShow):
         ax.legend(title = (str)(threshold * 100) + " % threshold")
         ax.title.set_text(title)
 
-        txt = 'Colour shift info: \n'
+        txt_e = 'Colour shift info: \n'
         for i in range (0, len(time_tick)):
             if (isinstance(time_tick[i], int)) :
                 if (i < len(time_tick) - 1):
-                    txt = txt + 'Channel ' + str(i + 1) + ': '+  df.columns[i + 1] + ' at ' + str(time_tick[i]) + " minute\n"
+                    txt_e = txt_e + 'Channel ' + str(i + 1) + ': '+  df.columns[i + 1] + ' at ' + str(time_tick[i]) + " minute\n"
                 else:
-                    txt = txt + 'Channel ' + str(i + 1) + ': '+  df.columns[i + 1] + ' at ' + str(time_tick[i]) + " minute"
+                    txt_e = txt_e + 'Channel ' + str(i + 1) + ': '+  df.columns[i + 1] + ' at ' + str(time_tick[i]) + " minute"
             else:
-                txt = txt + 'Channel ' + str(i + 1) + ': '+  df.columns[i + 1] + ' ' + time_tick[i] + ' \n'
+                txt_e = txt_e + 'Channel ' + str(i + 1) + ': '+  df.columns[i + 1] + ' ' + time_tick[i] + ' \n'
 
-        fig = ax.get_figure()
+        fig_e = ax.get_figure()
         if (isShow):
-            fig.text(0.45, -0.05, txt, ha = 'left',  bbox = dict(facecolor = 'red', alpha = 0.4))        
-        fig.set_size_inches(16, 9, forward = True)
-        fig.savefig(filename + '_' + (str)(threshold * 100) + '%_threshold_errorbar.png', dpi = 120, bbox_inches = "tight")
+            fig_e.text(0.45, -0.05, txt_e, ha = 'left',  bbox = dict(facecolor = 'red', alpha = 0.35))        
+        fig_e.set_size_inches(16, 9, forward = True)
+        fig_e.savefig(filename + '_' + (str)(threshold * 100) + '%_threshold_errorbar.png', dpi = 120, bbox_inches = "tight")
         plt.show()
     
 
@@ -174,20 +173,20 @@ def threshold_error_zoom(data, error, threshold, title, isShow, filepath, xmax, 
     df = data.groupby(np.arange(len(data))//60).mean()
     df_err = error[error.index % 60 == 0]
     df_err = df_err.reset_index(drop = True)
-    ax = df.plot(yerr = df_err, linestyle = '-', linewidth = 0.8)
+    ax = df.plot(yerr = df_err, linestyle = '-', linewidth = 0.75)
     ax_ctrl = df.reset_index().plot(x = 'index', y = 1, kind = 'scatter', ax = ax, c = "b")
     time_tick = []
 
     for i in range(2, len(df.columns) + 1):
-        green_list = df.iloc[:, (i-1)][df.iloc[:, (i-1)] < df.iloc[:, 0]*threshold].index.tolist()
-        colors = np.where(df.iloc[:, (i-1)] > df.iloc[:, 0]*threshold, 'r', 'g')
+        green_list = df.iloc[:, (i - 1)][df.iloc[:, (i - 1)] < df.iloc[:, 0]*threshold].index.tolist()
+        colors = np.where(df.iloc[:, (i - 1)] > df.iloc[:, 0]*threshold, 'r', 'g')
         ax_i = df.reset_index().plot(x = 'index', y = i, kind = 'scatter', ax = ax, c = colors, marker = ".")
 
         if (len(green_list) >= 10):
             ''' DISCUSS ACCURACY
             '''
             for i in range(2, len(green_list) - 5):
-                if (green_list[i] + 5 == green_list[i + 5]):
+                if (green_list[i] + 2 == green_list[i + 2]):
                     time_tick.append(green_list[i])
                     break
         else:
