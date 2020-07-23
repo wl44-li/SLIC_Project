@@ -14,7 +14,7 @@ def saveData(filepath, data):
     data.to_csv(filename + "_clean.csv", index = False)
 
 
-def refineData(col_list, num, col_unit, data):
+def refineData(col_list, num, col_unit, data, isVer7):
     ''' Remove string + baseline correct
     
     Parameters
@@ -30,7 +30,7 @@ def refineData(col_list, num, col_unit, data):
         dataframe.
 
     '''
-    data = remove_string(col_list, num, col_unit, data)
+    data = remove_string(col_list, num, col_unit, data, isVer7)
     data = baseline_correct(data)
     return data
 
@@ -47,12 +47,12 @@ def extract(string):
     '''
     return re.sub('^\d*\.*\^*-+', '-', string)
     
-def remove_string(col_list, col_num, col_unit, df):
-    ''' Support version 7 of SLIC
+def remove_string(col_list, col_num, col_unit, df, isVer7):
+    ''' Support version 7.1 (7.0 optional) of SLIC
     
     Remove extra 'System running' as noise
     Remove all alphabets
-    Expand to 6 OR more channels (up to 64)
+    Expand to 6 OR more channels (up to 64) -> space-sparated raw data column
     Remove useless channels
     Drop entries with fewer than 6 channels
     Remove first 3 rows (warmming up SLIC)
@@ -77,14 +77,27 @@ def remove_string(col_list, col_num, col_unit, df):
         # remove error system startsp
         df = df.iloc[start_list[len(start_list) - 1]:]
         print(start_list[len(start_list) - 1], "rows have been removed from start\n")
-          
+    
+    else:
+        print("No multiple start detected")
+        
     df.iloc[:, 0] = df.iloc[:, 0].str.replace(r"[a-zA-Z]", '')
+    #print(df)
+    
     df.iloc[:, 0] = df.iloc[:, 0].str.replace(r"[^\w\s^.^-]|_", '')
+    #print(df)
+    
     df.iloc[:, 0] = df.iloc[:, 0].apply(extract)
+    #print(df)
+    
     df = df[0].str.split(expand = True)
     
-    while (len(df.columns) > col_num):
-        df.drop(df.columns[-1], axis = 1, inplace = True)
+    if (isVer7) :
+        while (len(df.columns) > col_num):
+            df.drop(df.columns[0], axis = 1, inplace = True)
+    else :
+        while (len(df.columns) > col_num):
+            df.drop(df.columns[-1], axis = 1, inplace = True)
 
     df = df[df[col_num - 1].notna()]
     df = df.iloc[3:]

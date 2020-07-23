@@ -14,7 +14,7 @@ class SLIC_DataTool:
         ''' Initilise GUI
         '''
         self.builder = builder = pygubu.Builder()
-        builder.add_from_file('SLIC_ui_1.2.ui')
+        builder.add_from_file('SLIC_ui_2.0.ui')
         self.mainwindow = builder.get_object("Data_Func")
         builder.connect_callbacks(self)
 
@@ -29,7 +29,13 @@ class SLIC_DataTool:
         threshold_p = self.builder.tkvariables['threshold'].get()
         isShow = self.builder.tkvariables['is_show'].get()
             
+        isCondense = self.builder.tkvariables['isCondense'].get()
+        ctrl_num = self.builder.tkvariables['ctrl_num'].get()
+        isVer7 = self.builder.tkvariables['isVer7'].get()
+        
         col_list = [x.strip() for x in col_h.split()]
+        
+        print(col_list)
         file_list = []
 
         for i in range(num_f):
@@ -39,19 +45,19 @@ class SLIC_DataTool:
         if num_f == 1:
             data = readFile(file_list[0])
             if data is not None:
-                data = cleanData.remove_string(col_list, num_c, col_u, data)
+                data = cleanData.remove_string(col_list, num_c, col_u, data, isVer7)
                 print("Data refined\n")
                 data = cleanData.baseline_correct(data)
                 print("Data baseline corrected\n")
                 cleanData.saveData(file_list[0], data)
                 print("Data saved\n")
-                simpleGraph.thresholdGraph(data, threshold_p/100, graph_h, file_list[0], isShow)
+                simpleGraph.threshold_final(data, threshold_p/100, graph_h, file_list[0], ctrl_num, isShow, isCondense)
 
         else:
             df_list = [readFile(filename) for filename in file_list]
             clean_list = []
             for i in range(0, len(df_list)):
-                df = cleanData.refineData(col_list, num_c, col_u, df_list[i])
+                df = cleanData.refineData(col_list, num_c, col_u, df_list[i], isVer7)
                 cleanData.saveData(file_list[i], df)
                 clean_list.append(df)
 
@@ -60,8 +66,8 @@ class SLIC_DataTool:
             df_means = by_row_index.mean()
             print("Data collated and averaged\n")
             df_sem = by_row_index.sem()
-            simpleGraph.thresholdGraph(df_means, threshold_p/100, graph_h, file_list[0], isShow)
-            simpleGraph.threshold_errorbar(df_means, df_sem, threshold_p/100, graph_h, file_list[0], isShow)
+            simpleGraph.threshold_final(df_means, threshold_p/100, graph_h, file_list[0], ctrl_num, isShow, isCondense)
+            simpleGraph.threshold_errorbar(df_means, df_sem, threshold_p/100, graph_h, file_list[0], ctrl_num, isShow, isCondense)
 
 
     def button2_callback(self):
@@ -79,6 +85,9 @@ class SLIC_DataTool:
         y_max = self.builder.tkvariables['y_max'].get()
         isShow = self.builder.tkvariables['is_show'].get()
 
+        isCondense = self.builder.tkvariables['isCondense'].get()
+        ctrl_num = self.builder.tkvariables['ctrl_num'].get()
+        isVer7 = self.builder.tkvariables['isVer7'].get()
         col_list = [x.strip() for x in col_h.split()]
         file_list = []
 
@@ -89,22 +98,22 @@ class SLIC_DataTool:
         if num_f == 1:
             data = readFile(file_list[0])
             if data is not None:
-                data = cleanData.remove_string(col_list, num_c, col_u, data)
+                data = cleanData.remove_string(col_list, num_c, col_u, data, isVer7)
                 data = cleanData.baseline_correct(data)
-                simpleGraph.threshold_zoom(data, threshold_p/100, graph_h, file_list[0], isShow, x_max, x_min, y_max, y_min)
+                simpleGraph.threshold_zoom(data, threshold_p/100, graph_h, file_list[0], ctrl_num, isShow, isCondense, x_max, x_min, y_max, y_min)
 
         else:
             df_list = [readFile(filename) for filename in file_list]
             clean_list = []
             for df in df_list:
-                df = cleanData.refineData(col_list, num_c, col_u, df)
+                df = cleanData.refineData(col_list, num_c, col_u, df, isVer7)
                 clean_list.append(df)
 
             df_concat = pd.concat(clean_list)
             by_row_index = df_concat.groupby(df_concat.index)
             df_means = by_row_index.mean()
             df_sem = by_row_index.sem()
-            simpleGraph.threshold_error_zoom(df_means, df_sem, threshold_p/100, graph_h, file_list[0], isShow, x_max, x_min, y_max, y_min)  
+            simpleGraph.threshold_error_zoom(df_means, df_sem, threshold_p/100, graph_h, file_list[0], ctrl_num, isShow, isCondense, x_max, x_min, y_max, y_min)  
         
     def run(self):
         self.mainwindow.mainloop()  
