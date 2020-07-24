@@ -9,7 +9,6 @@ import os
 '''
 Script to Perform average across 3 runs of SLIC data - Usual case
 '''
-
 # Use Tkinter to get file explorer window
 root = tk.Tk()
 
@@ -35,8 +34,7 @@ clean_list = []
 
 # refine all dataframes
 for df in df_list:
-    df = cleanData.refineData(col_list, 6, "ug/ml", df)
-    # Add to list of refined dataframes
+    df = cleanData.refineData(col_list, 6, "ug/ml", df, False)
     clean_list.append(df)
 
 # Concate dataframes together
@@ -49,10 +47,9 @@ df_means = by_row_index.mean()
 # Standard error calcualted based on mean
 df_sem = by_row_index.sem()
 # print(df_sem)
-
 # generate graph from averaged data
-simpleGraph.graph(df_means, file_list[0].split('(')[0] + '_avg_')
-simpleGraph.thresholdGraph(df_means, 0.50, "Threshold Graph", file_list[0].split('(')[0] + '_avg_', True)
+# simpleGraph.graph(df_means, file_list[0].split('(')[0] + '_avg_')
+# simpleGraph.thresholdGraph(df_means, 0.50, "Threshold Graph", file_list[0].split('(')[0] + '_avg_', True)
 
 # option to add error bars
-simpleGraph.threshold_errorbar(df_means, df_sem, 0.50, "Threshold Graph", file_list[0].split('(')[0] + '_avg_error_bar', True)
+simpleGraph.threshold_errorbar(df_means, df_sem, 0.50, "Threshold Graph", file_list[0], 1, True, False)

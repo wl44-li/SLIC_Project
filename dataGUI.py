@@ -9,7 +9,6 @@ import sys
 class SLIC_DataTool:
     ''' Main class
     '''
-
     def __init__(self):
         ''' Initilise GUI
         '''
@@ -34,8 +33,6 @@ class SLIC_DataTool:
         isVer7 = self.builder.tkvariables['isVer7'].get()
         
         col_list = [x.strip() for x in col_h.split()]
-        
-        print(col_list)
         file_list = []
 
         for i in range(num_f):
@@ -68,7 +65,6 @@ class SLIC_DataTool:
             df_sem = by_row_index.sem()
             simpleGraph.threshold_final(df_means, threshold_p/100, graph_h, file_list[0], ctrl_num, isShow, isCondense)
             simpleGraph.threshold_errorbar(df_means, df_sem, threshold_p/100, graph_h, file_list[0], ctrl_num, isShow, isCondense)
-
 
     def button2_callback(self):
         ''' Click action of second button - Zoom in snapshot 
@@ -108,7 +104,6 @@ class SLIC_DataTool:
             for df in df_list:
                 df = cleanData.refineData(col_list, num_c, col_u, df, isVer7)
                 clean_list.append(df)
-
             df_concat = pd.concat(clean_list)
             by_row_index = df_concat.groupby(df_concat.index)
             df_means = by_row_index.mean()

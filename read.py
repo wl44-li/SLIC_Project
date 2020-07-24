@@ -15,7 +15,7 @@ root.withdraw()
 # Get the path to raw data csv file
 raw_file_path = filedialog.askopenfilename()
 
-col_list = [32, 16, 8, 4, 2, "ctrl"]
+col_list = [0, 2, 4, 8, 16, 32]
 
 data = readFile(raw_file_path)
 
@@ -33,10 +33,8 @@ if data is not None:
 
     cleanData.saveData(raw_file_path, data)
     print("Data saved\n")
-    
-    #simpleGraph.thresholdGraph(data, 0.5, "Header", raw_file_path, True)
-    
-    simpleGraph.threshold_final(data, 0.5, "Header", raw_file_path, 6, True, False)
+        
+    simpleGraph.threshold_final(data, 0.5, "Header", raw_file_path, 1, True, True)
     
     
     

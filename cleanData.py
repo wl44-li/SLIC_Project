@@ -13,7 +13,6 @@ def saveData(filepath, data):
     filename = os.path.splitext(filepath)[0]
     data.to_csv(filename + "_clean.csv", index = False)
 
-
 def refineData(col_list, num, col_unit, data, isVer7):
     ''' Remove string + baseline correct
     
@@ -74,22 +73,15 @@ def remove_string(col_list, col_num, col_unit, df, isVer7):
 
     if len(start_list) > 1:
         print("Warning: More than one 'System start' detected")
-        # remove error system startsp
         df = df.iloc[start_list[len(start_list) - 1]:]
         print(start_list[len(start_list) - 1], "rows have been removed from start\n")
     
     else:
         print("No multiple start detected")
         
-    df.iloc[:, 0] = df.iloc[:, 0].str.replace(r"[a-zA-Z]", '')
-    #print(df)
-    
+    df.iloc[:, 0] = df.iloc[:, 0].str.replace(r"[a-zA-Z]", '')    
     df.iloc[:, 0] = df.iloc[:, 0].str.replace(r"[^\w\s^.^-]|_", '')
-    #print(df)
-    
     df.iloc[:, 0] = df.iloc[:, 0].apply(extract)
-    #print(df)
-    
     df = df[0].str.split(expand = True)
     
     if (isVer7) :
@@ -121,7 +113,6 @@ def baseline_correct(df):
     -------
     df : dataframe
     '''
-
     df = df.apply(pd.to_numeric)
     df = df - df.iloc[0]
     return df
