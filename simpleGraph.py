@@ -10,7 +10,6 @@ def threshold_final(df, threshold, title, filepath, ctrl_num, isShow, isCondense
         ax = df.plot()
         ax_ctrl = df.reset_index().plot(x = 'index', y = ctrl_num, kind = 'scatter', ax = ax, c = "b")
         time_tick = []
-    
         for i in range(1, len(df.columns) + 1) :
             if (i != ctrl_num - 1) :
                 green_list = df.iloc[:, (i - 1)][df.iloc[:, (i - 1)] < df.iloc[:, (ctrl_num - 1)] * threshold].index.tolist()
@@ -47,14 +46,12 @@ def threshold_final(df, threshold, title, filepath, ctrl_num, isShow, isCondense
         if (isShow) :
             fig.text(0.45, -0.06, txt, ha = 'left',  bbox = dict(facecolor = 'red', alpha = 0.35))
         fig.set_size_inches(16, 9, forward = True)
-        fig.savefig(filename + '_' + (str)(threshold * 100) + '%_threshold.png', dpi = 120, bbox_inches = "tight")
+        fig.savefig(filename + '_' + (str)(threshold * 100) + '%_threshold_min.png', dpi = 120, bbox_inches = "tight")
         
     else:
         ax = df.plot()
         ax_ctrl = df.reset_index().plot(x = 'index', y = ctrl_num, kind = 'scatter', ax = ax, c = "b")
         time_tick = []
-    
-        print("number of columns", len(df.columns))
         for i in range(1, len(df.columns) + 1) :
             if (i != ctrl_num - 1) :
                 green_list = df.iloc[:, (i - 1)][df.iloc[:, (i - 1)] < df.iloc[:, (ctrl_num - 1)] * threshold].index.tolist()
@@ -133,13 +130,15 @@ def threshold_zoom(df, threshold, title, filepath, ctrl_num, isShow, isCondense,
                 txt = txt + 'Channel ' + str(i + 1) + ': '+  df.columns[i] + ' ' + time_tick[i] + ' \n'
                         
         fig = ax.get_figure()
+        fig.set_size_inches(16, 9, forward = True)
+
         if (isShow) :
             fig.text(0.45, -0.06, txt, ha = 'left',  bbox = dict(facecolor = 'red', alpha = 0.35))
         ax_zoom = ax
         ax_zoom.set_xlim([xmin, xmax])
         ax_zoom.set_ylim([ymin, ymax])
         fig = ax_zoom.get_figure()
-        fig.savefig(filename + '_' + (str)(threshold * 100) + '%_threshold_zoom.png', dpi = 120, bbox_inches = "tight")
+        fig.savefig(filename + '_' + (str)(threshold * 100) + '%_threshold_min_zoom.png', dpi = 120, bbox_inches = "tight")
         plt.show()
         
     else:
@@ -180,6 +179,8 @@ def threshold_zoom(df, threshold, title, filepath, ctrl_num, isShow, isCondense,
                 txt = txt + 'Channel ' + str(i + 1) + ': '+  df.columns[i] + ' ' + time_tick[i] + ' \n'
                         
         fig = ax.get_figure()
+        fig.set_size_inches(16, 9, forward = True)
+
         if (isShow) :
             fig.text(0.45, -0.06, txt, ha = 'left',  bbox = dict(facecolor = 'red', alpha = 0.35))
     
@@ -255,10 +256,13 @@ def threshold_errorbar(df, error, threshold, title, filepath, ctrl_num, isShow, 
                 txt = txt + 'Channel ' + str(i + 1) + ': '+  df.columns[i] + ' ' + time_tick[i] + ' \n'
 
     fig_e = ax.get_figure()
-    if (isShow):
+    if (isShow) :
         fig_e.text(0.45, -0.08, txt, ha = 'left',  bbox = dict(facecolor = 'green', alpha = 0.35))        
     fig_e.set_size_inches(16, 9, forward = True)
-    fig_e.savefig(filename + '_' + (str)(threshold * 100) + '%_threshold_errorbar.png', dpi = 120, bbox_inches = "tight")
+    if (isCondense) :
+        fig_e.savefig(filename + '_' + (str)(threshold * 100) + '%_threshold_min_errorbar.png', dpi = 120, bbox_inches = "tight")
+    else :
+        fig_e.savefig(filename + '_' + (str)(threshold * 100) + '%_threshold_errorbar.png', dpi = 120, bbox_inches = "tight")
     plt.show()
 
 def threshold_error_zoom(df, error, threshold, title, filepath, ctrl_num, isShow, isCondense, xmax, xmin, ymax, ymin):
@@ -335,7 +339,10 @@ def threshold_error_zoom(df, error, threshold, title, filepath, ctrl_num, isShow
     ax_zoom.set_xlim([xmin, xmax])
     ax_zoom.set_ylim([ymin, ymax])
     fig = ax_zoom.get_figure()
-    fig.savefig(filename + '_' + (str)(threshold * 100) + '%_threshold_errorbar_zoom.png', dpi = 120, bbox_inches = "tight")
+    if (isCondense) :
+        fig.savefig(filename + '_' + (str)(threshold * 100) + '%_threshold_min_errorbar.png', dpi = 120, bbox_inches = "tight")
+    else :
+        fig.savefig(filename + '_' + (str)(threshold * 100) + '%_threshold_errorbar.png', dpi = 120, bbox_inches = "tight")    
     plt.show()
 
 '''
