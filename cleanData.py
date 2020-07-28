@@ -72,12 +72,12 @@ def remove_string(col_list, col_num, col_unit, df, isVer7):
     start_list = df.iloc[:, 0][df.iloc[:, 0] == 'OK System running'].index.tolist()
 
     if len(start_list) > 1:
-        print("Warning: More than one 'System start' detected")
+        print("Warning: More than one 'System start' detected\n")
         df = df.iloc[start_list[len(start_list) - 1]:]
-        print(start_list[len(start_list) - 1], "rows have been removed from start\n")
+        print(start_list[len(start_list) - 1], "rows have been removed from the start\n")
     
     else:
-        print("No multiple start detected")
+        print("No multiple start detected\n")
         
     df.iloc[:, 0] = df.iloc[:, 0].str.replace(r"[a-zA-Z]", '')    
     df.iloc[:, 0] = df.iloc[:, 0].str.replace(r"[^\w\s^.^-]|_", '')

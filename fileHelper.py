@@ -19,6 +19,6 @@ def readFile(filepath):
         return data
     
     else:
-        print("File Unable To Be Read")
+        print("File Unable To Be Read, please restart the program\n")
         return None
 

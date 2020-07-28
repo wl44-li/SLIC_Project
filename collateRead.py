@@ -47,9 +47,10 @@ df_means = by_row_index.mean()
 # Standard error calcualted based on mean
 df_sem = by_row_index.sem()
 # print(df_sem)
-# generate graph from averaged data
-# simpleGraph.graph(df_means, file_list[0].split('(')[0] + '_avg_')
-# simpleGraph.thresholdGraph(df_means, 0.50, "Threshold Graph", file_list[0].split('(')[0] + '_avg_', True)
 
 # option to add error bars
-simpleGraph.threshold_errorbar(df_means, df_sem, 0.50, "Threshold Graph", file_list[0], 1, True, False)
+simpleGraph.threshold_final(df_means, 0.5, "Header MIN", file_list[0], 1, True, True)
+simpleGraph.threshold_errorbar(df_means, df_sem, 0.50, "Threshold Graph ERR MIN", file_list[0], 1, True, True)
+
+simpleGraph.threshold_final(df_means, 0.5, "Header SEC", file_list[0], 1, True, False)
+simpleGraph.threshold_errorbar(df_means, df_sem, 0.50, "Threshold Graph ERR SEC", file_list[0], 1, True, False)
