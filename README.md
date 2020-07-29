@@ -19,8 +19,9 @@ Working on intepretating data obtained via SLIC, with a flexible GUI
          
          Channel Data: the value of each SLIC channel separated by space, i.e. ( 0 2 4 8 16 32) NOTE, value must be distinct!
          
-         Ctrl Channel Index: an index from 1 to the number of channels denoting control channel position
-         
+         Ctrl Channel Index: an index from 1 to the number of channels denoting control channel position. 
+                             i.e. if control is on the left, its position will be 1; if on the right, its position will be 6 (given a total of 6 channels)  
+    
          Graph title: the title you would add to generated graphs
          
          Threshold: a scroll bar between 0 to 100% 
