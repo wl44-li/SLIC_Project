@@ -39,5 +39,5 @@ Working on intepretating data obtained via SLIC, with a flexible GUI
 
     5.1 Spyder also provides preview of graphs on the top right console
     
-    5.2 You will probably see Spyder printing out information on the bottom right console, 
+    5.2 You will probably see Spyder print out some other useful info on bottom right console, too. 
 
