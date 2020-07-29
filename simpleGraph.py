@@ -8,7 +8,7 @@ def threshold_final(df, threshold, title, filepath, ctrl_num, isShow, isCondense
     
     if (isCondense) :
         df = df.groupby(np.arange(len(df))//60).mean()
-        print("\nData condensed\n")
+        print("Data condensed\n")
         ax = df.plot()
         ax_ctrl = df.reset_index().plot(x = 'index', y = ctrl_num, kind = 'scatter', ax = ax, c = "b")
         time_tick = []
@@ -18,15 +18,15 @@ def threshold_final(df, threshold, title, filepath, ctrl_num, isShow, isCondense
                 green_list = df.iloc[:, (i - 1)][df.iloc[:, (i - 1)] < df.iloc[:, (ctrl_num - 1)] * threshold].index.tolist()
                 colors = np.where(df.iloc[:, (i - 1)] > df.iloc[:, (ctrl_num - 1)]*threshold, 'r', 'g')
                 ax_i = df.reset_index().plot(x = 'index', y = i, kind = 'scatter', ax = ax, c = colors, marker = "|")
-
+                
                 if (len(green_list) > 10) :
                     for j in range(2, len(green_list) - 10) :
-                        if (green_list[j] + 9 == green_list[j + 9]) :
+                        if (green_list[j] + 10 == green_list[j + 10]) :
                             time_tick.append(green_list[j])
                             break
                 else :
                     time_tick.append('No valid colour shift detected')
-
+        
         ax.set_xlabel("Time(min)")
         ax.set_ylabel("Growth(dB)")
         ax.legend(title = (str)(threshold * 100) + " % threshold")
@@ -41,8 +41,9 @@ def threshold_final(df, threshold, title, filepath, ctrl_num, isShow, isCondense
                     else :
                         txt = txt + 'Channel ' + str(i + 1) + ': '+  df.columns[i]  + ' at ' + str(time_tick[i]) + " minute"
                 else :
-                    txt = txt + 'Channel ' + str(i + 1) + ': '+  df.columns[i] + ' ' + time_tick[i - 1] + ' \n'
+                    txt = txt + 'Channel ' + str(i + 1) + ': '+  df.columns[i] + ' ' + time_tick[i] + ' \n'
              txt = txt + 'Channel ' + str(ctrl_num) + ': ' +  df.columns[ctrl_num - 1] + " (Control)"
+        
         else:
             for i in range (0, len(time_tick) + 1) :
                 if (i + 1 == ctrl_num) :
@@ -72,15 +73,15 @@ def threshold_final(df, threshold, title, filepath, ctrl_num, isShow, isCondense
                 green_list = df.iloc[:, (i - 1)][df.iloc[:, (i - 1)] < df.iloc[:, (ctrl_num - 1)] * threshold].index.tolist()
                 colors = np.where(df.iloc[:, (i - 1)] > df.iloc[:, (ctrl_num - 1)]*threshold, 'r', 'g')
                 ax_i = df.reset_index().plot(x = 'index', y = i, kind = 'scatter', ax = ax, c = colors, marker = "|")
-
-                if (len(green_list) > 600) :
-                    for j in range(2, len(green_list) - 100) :
-                        if (green_list[j] + 60 == green_list[j + 60]) :
+                
+                if (len(green_list) > 700) :
+                    for j in range(120, len(green_list) - 100) :
+                        if (green_list[j] + 480 == green_list[j + 480]) :
                             time_tick.append(green_list[j])
                             break
                 else :
                     time_tick.append('No valid colour shift detected')
-
+        
         ax.set_xlabel("Time(sec)")
         ax.set_ylabel("Growth(dB)")
         ax.legend(title = (str)(threshold * 100) + " % threshold")
@@ -95,8 +96,9 @@ def threshold_final(df, threshold, title, filepath, ctrl_num, isShow, isCondense
                     else :
                         txt = txt + 'Channel ' + str(i + 1) + ': '+  df.columns[i]  + ' at ' + str(time_tick[i]) + " second"
                 else :
-                    txt = txt + 'Channel ' + str(i + 1) + ': '+  df.columns[i] + ' ' + time_tick[i - 1] + ' \n'
+                    txt = txt + 'Channel ' + str(i + 1) + ': '+  df.columns[i] + ' ' + time_tick[i] + ' \n'
              txt = txt + 'Channel ' + str(ctrl_num) + ': ' +  df.columns[ctrl_num - 1] + " (Control)"
+        
         else:
             for i in range (0, len(time_tick) + 1) :
                 if (i + 1 == ctrl_num) :
@@ -122,7 +124,7 @@ def threshold_zoom(df, threshold, title, filepath, ctrl_num, isShow, isCondense,
     
     if (isCondense) :
         df = df.groupby(np.arange(len(df))//60).mean()
-        print("\nData condensed\n")
+        print("Data condensed\n")
         
         ax = df.plot()
         ax_ctrl = df.reset_index().plot(x = 'index', y = ctrl_num, kind = 'scatter', ax = ax, c = "b")
@@ -136,7 +138,7 @@ def threshold_zoom(df, threshold, title, filepath, ctrl_num, isShow, isCondense,
 
                 if (len(green_list) > 10) :
                     for j in range(2, len(green_list) - 10) :
-                        if (green_list[j] + 9 == green_list[j + 9]) :
+                        if (green_list[j] + 10 == green_list[j + 10]) :
                             time_tick.append(green_list[j])
                             break
                 else :
@@ -156,8 +158,9 @@ def threshold_zoom(df, threshold, title, filepath, ctrl_num, isShow, isCondense,
                     else :
                         txt = txt + 'Channel ' + str(i + 1) + ': '+  df.columns[i]  + ' at ' + str(time_tick[i]) + " minute"
                 else :
-                    txt = txt + 'Channel ' + str(i + 1) + ': '+  df.columns[i] + ' ' + time_tick[i - 1] + ' \n'
+                    txt = txt + 'Channel ' + str(i + 1) + ': '+  df.columns[i] + ' ' + time_tick[i] + ' \n'
              txt = txt + 'Channel ' + str(ctrl_num) + ': ' +  df.columns[ctrl_num - 1] + " (Control)"
+        
         else:
             for i in range (0, len(time_tick) + 1) :
                 if (i + 1 == ctrl_num) :
@@ -192,14 +195,14 @@ def threshold_zoom(df, threshold, title, filepath, ctrl_num, isShow, isCondense,
                 colors = np.where(df.iloc[:, (i - 1)] > df.iloc[:, (ctrl_num - 1)]*threshold, 'r', 'g')
                 ax_i = df.reset_index().plot(x = 'index', y = i, kind = 'scatter', ax = ax, c = colors, marker = "|")
 
-                if (len(green_list) > 600) :
-                    for j in range(2, len(green_list) - 100) :
-                        if (green_list[j] + 60 == green_list[j + 60]) :
+                if (len(green_list) > 700) :
+                    for j in range(120, len(green_list) - 100) :
+                        if (green_list[j] + 480 == green_list[j + 480]) :
                             time_tick.append(green_list[j])
                             break
                 else :
                     time_tick.append('No valid colour shift detected')
-
+        
         ax.set_xlabel("Time(sec)")
         ax.set_ylabel("Growth(dB)")
         ax.legend(title = (str)(threshold * 100) + " % threshold")
@@ -214,8 +217,9 @@ def threshold_zoom(df, threshold, title, filepath, ctrl_num, isShow, isCondense,
                     else :
                         txt = txt + 'Channel ' + str(i + 1) + ': '+  df.columns[i]  + ' at ' + str(time_tick[i]) + " second"
                 else :
-                    txt = txt + 'Channel ' + str(i + 1) + ': '+  df.columns[i] + ' ' + time_tick[i - 1] + ' \n'
+                    txt = txt + 'Channel ' + str(i + 1) + ': '+  df.columns[i] + ' ' + time_tick[i] + ' \n'
              txt = txt + 'Channel ' + str(ctrl_num) + ': ' +  df.columns[ctrl_num - 1] + " (Control)"
+        
         else:
             for i in range (0, len(time_tick) + 1) :
                 if (i + 1 == ctrl_num) :
@@ -247,7 +251,7 @@ def threshold_errorbar(df, error, threshold, title, filepath, ctrl_num, isShow, 
         df = df.groupby(np.arange(len(df))//60).mean()
         error = error[error.index % 60 == 0]
         error = error.reset_index(drop = True)
-        print("\nData condensed\n")     
+        print("Data condensed\n")     
     
     ax = df.plot(yerr = error, linestyle = '-', linewidth = 0.65)
     ax_ctrl = df.reset_index().plot(x = 'index', y = ctrl_num, kind = 'scatter', ax = ax, c = "b")
@@ -261,15 +265,15 @@ def threshold_errorbar(df, error, threshold, title, filepath, ctrl_num, isShow, 
             if (isCondense) :
                 if (len(green_list) > 10) :
                     for i in range(2, len(green_list) - 10) :
-                        if (green_list[i] + 9 == green_list[i + 9]) :
+                        if (green_list[i] + 10 == green_list[i + 10]) :
                             time_tick.append(green_list[i])
                             break
                 else :
                     time_tick.append('No valid colour shift detected')
             else :
-                if (len(green_list) > 600) :
-                    for i in range(2, len(green_list) - 100) :
-                        if (green_list[i] + 60 == green_list[i + 60]) :
+                if (len(green_list) > 700) :
+                    for i in range(120, len(green_list) - 100) :
+                        if (green_list[i] + 480 == green_list[i + 480]) :
                             time_tick.append(green_list[i])
                             break
                 else :
@@ -298,7 +302,7 @@ def threshold_errorbar(df, error, threshold, title, filepath, ctrl_num, isShow, 
                else :
                    txt = txt + 'Channel ' + str(i + 1) + ': '+  df.columns[i]  + ' at ' + str(time_tick[i]) + " minute"
            else :
-               txt = txt + 'Channel ' + str(i + 1) + ': '+  df.columns[i] + ' ' + time_tick[i - 1] + ' \n'
+               txt = txt + 'Channel ' + str(i + 1) + ': '+  df.columns[i] + ' ' + time_tick[i] + ' \n'
         
         txt = txt + 'Channel ' + str(ctrl_num) + ': ' +  df.columns[ctrl_num - 1] + " (Control)"
     
@@ -339,7 +343,7 @@ def threshold_error_zoom(df, error, threshold, title, filepath, ctrl_num, isShow
         df = df.groupby(np.arange(len(df))//60).mean()
         error = error[error.index % 60 == 0]
         error = error.reset_index(drop = True)
-        print("\nData condensed\n")     
+        print("Data condensed\n")     
     
     ax = df.plot(yerr = error, linestyle = '-', linewidth = 0.65)
     ax_ctrl = df.reset_index().plot(x = 'index', y = ctrl_num, kind = 'scatter', ax = ax, c = "b")
@@ -353,15 +357,15 @@ def threshold_error_zoom(df, error, threshold, title, filepath, ctrl_num, isShow
             if (isCondense) :
                 if (len(green_list) > 10) :
                     for i in range(2, len(green_list) - 10) :
-                        if (green_list[i] + 9 == green_list[i + 9]) :
+                        if (green_list[i] + 10 == green_list[i + 10]) :
                             time_tick.append(green_list[i])
                             break
                 else :
                     time_tick.append('No valid colour shift detected')
             else :
-                if (len(green_list) > 600) :
-                    for i in range(2, len(green_list) - 100) :
-                        if (green_list[i] + 60 == green_list[i + 60]) :
+                if (len(green_list) > 700) :
+                    for i in range(120, len(green_list) - 100) :
+                        if (green_list[i] + 480 == green_list[i + 480]) :
                             time_tick.append(green_list[i])
                             break
                 else :
@@ -388,7 +392,7 @@ def threshold_error_zoom(df, error, threshold, title, filepath, ctrl_num, isShow
                else :
                    txt = txt + 'Channel ' + str(i + 1) + ': '+  df.columns[i]  + ' at ' + str(time_tick[i]) + " minute"
            else :
-               txt = txt + 'Channel ' + str(i + 1) + ': '+  df.columns[i] + ' ' + time_tick[i - 1] + ' \n'
+               txt = txt + 'Channel ' + str(i + 1) + ': '+  df.columns[i] + ' ' + time_tick[i] + ' \n'
         
         txt = txt + 'Channel ' + str(ctrl_num) + ': ' +  df.columns[ctrl_num - 1] + " (Control)"
     

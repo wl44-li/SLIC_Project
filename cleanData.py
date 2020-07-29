@@ -47,7 +47,7 @@ def extract(string):
     return re.sub('^\d*\.*\^*-+', '-', string)
     
 def remove_string(col_list, col_num, col_unit, df, isVer7):
-    ''' Support version 7.1 (7.0 optional) of SLIC
+    ''' Support version 7.1 (7.0 is optional) of SLIC
     
     Remove extra 'System running' as noise
     Remove all alphabets

@@ -49,6 +49,8 @@ class SLIC_DataTool:
                 cleanData.saveData(file_list[0], data)
                 print("Data saved\n")
                 simpleGraph.threshold_final(data, threshold_p/100, graph_h, file_list[0], ctrl_num, isShow, isCondense)
+                print("Graph saved\n")
+                print("--- Success ---")
 
         else:
             df_list = [readFile(filename) for filename in file_list]
@@ -65,6 +67,8 @@ class SLIC_DataTool:
             df_sem = by_row_index.sem()
             simpleGraph.threshold_final(df_means, threshold_p/100, graph_h, file_list[0], ctrl_num, isShow, isCondense)
             simpleGraph.threshold_errorbar(df_means, df_sem, threshold_p/100, graph_h, file_list[0], ctrl_num, isShow, isCondense)
+            print("Graph saved\n")
+            print("--- Success ---")
 
     def button2_callback(self):
         ''' Click action of second button - Zoom in snapshot 
@@ -97,6 +101,8 @@ class SLIC_DataTool:
                 data = cleanData.remove_string(col_list, num_c, col_u, data, isVer7)
                 data = cleanData.baseline_correct(data)
                 simpleGraph.threshold_zoom(data, threshold_p/100, graph_h, file_list[0], ctrl_num, isShow, isCondense, x_max, x_min, y_max, y_min)
+                print("Zoomed Graph saved\n")
+                print("---Success---")
 
         else:
             df_list = [readFile(filename) for filename in file_list]
@@ -109,13 +115,15 @@ class SLIC_DataTool:
             df_means = by_row_index.mean()
             df_sem = by_row_index.sem()
             simpleGraph.threshold_error_zoom(df_means, df_sem, threshold_p/100, graph_h, file_list[0], ctrl_num, isShow, isCondense, x_max, x_min, y_max, y_min)  
-        
+            print("Zoomed Graph saved\n")
+            print("--- Success ---")     
     def run(self):
         self.mainwindow.mainloop()  
         
     def quit_callback(self):
         ''' Click action for quit button
         '''
+        print("Quitting SLIC Data Tool Ver 1.2\n")
         self.mainwindow.destroy()
         sys.exit()
         
