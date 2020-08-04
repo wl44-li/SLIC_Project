@@ -50,7 +50,7 @@ class SLIC_DataTool:
                 print("Data saved\n")
                 simpleGraph.threshold_final(data, threshold_p/100, graph_h, file_list[0], ctrl_num, isShow, isCondense)
                 print("Graph saved\n")
-                print("--- Success ---")
+                print("--- Success ---\n")
 
         else:
             df_list = [readFile(filename) for filename in file_list]
@@ -68,7 +68,7 @@ class SLIC_DataTool:
             simpleGraph.threshold_final(df_means, threshold_p/100, graph_h, file_list[0], ctrl_num, isShow, isCondense)
             simpleGraph.threshold_errorbar(df_means, df_sem, threshold_p/100, graph_h, file_list[0], ctrl_num, isShow, isCondense)
             print("Graph saved\n")
-            print("--- Success ---")
+            print("--- Success ---\n")
 
     def button2_callback(self):
         ''' Click action of second button - Zoom in snapshot 
@@ -102,7 +102,7 @@ class SLIC_DataTool:
                 data = cleanData.baseline_correct(data)
                 simpleGraph.threshold_zoom(data, threshold_p/100, graph_h, file_list[0], ctrl_num, isShow, isCondense, x_max, x_min, y_max, y_min)
                 print("Zoomed Graph saved\n")
-                print("---Success---")
+                print("--- Success ---\n")
 
         else:
             df_list = [readFile(filename) for filename in file_list]
@@ -116,7 +116,7 @@ class SLIC_DataTool:
             df_sem = by_row_index.sem()
             simpleGraph.threshold_error_zoom(df_means, df_sem, threshold_p/100, graph_h, file_list[0], ctrl_num, isShow, isCondense, x_max, x_min, y_max, y_min)  
             print("Zoomed Graph saved\n")
-            print("--- Success ---")     
+            print("--- Success ---\n")     
     def run(self):
         self.mainwindow.mainloop()  
         
